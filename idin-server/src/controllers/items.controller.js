@@ -24,7 +24,9 @@ exports.getItemsList = async () => {
     return items;
 };
 
-exports.createItem = async () => {
+exports.createItem = async (itemName, description) => {
+    const db = await database.getInstance();
+    // do not create if it already exists
 
 };
 
