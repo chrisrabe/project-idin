@@ -36,16 +36,14 @@ exports.createInventory = async (itemId, amount, unitType, owner) => {
     }
 };
 
-exports.updateInventory = async (id, amount, unitType) => {
+exports.updateInventory = async (id, amount) => {
     const db = await database.getInstance();
     // TODO evaluate and record transaction
     const newData = {
-        amount,
-        unitType
+        amount
     };
     validation.validateRequiredFields(newData, Object.keys(newData));
-    validation.validateAllowedValues(unitType, ['BOXES', 'INDIVIDUAL']);
-    if (amount === 0) {
+    if (amount <= 0) {
         return db.deleteById(id);
     } else {
         return db.update(id, newData);
