@@ -39,13 +39,32 @@ exports.createItem = async (itemName, description) => {
         description,
         isGenerated: false
     };
-    validation.validateRequiredFields(newData, Object.keys(newData));
+    validation.validateRequiredFields(newData, ['itemName']);
     // create the item
     return db.create(newData);
 };
 
-exports.updateItem = async (itemId) => {
-
+exports.updateItem = async (itemId, itemName, description) => {
+    const db = await database.getInstance();
+    // ensure that we're not updating item to existing one
+    const items = await db.find({ itemName });
+    const result = JSON.parse(items.data);
+    if (result.length > 0 && result.findIndex(item => item.id !== itemId) !== -1) {
+        throw new AppError(errorType.badRequest.unknown, "Item already exists");
+    }
+    // check that we're not trying to update generated items
+    const {data} = await db.find({id: itemId});
+    const curItem = JSON.parse(data);
+    if (curItem[0].isGenerated) {
+        throw new AppError(errorType.badRequest.unknown, "Cannot edit generated items");
+    }
+    // update the item
+    const newData = {
+        itemName,
+        description
+    };
+    validation.validateRequiredFields(newData, ['itemName']);
+    return db.update(itemId, newData);
 };
 
 exports.deleteItem = async (itemId) => {

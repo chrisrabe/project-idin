@@ -26,7 +26,14 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 router.post('/:id', asyncHandler(async (req, res) => {
-    return res.noContent();
+    const { id } = req.params;
+    const { itemName, description } = req.body;
+    try {
+        const {data} = await controller.updateItem(id, itemName, description);
+        return res.ok({item: data});
+    } catch (e) {
+        res.handleError(e, req);
+    }
 }));
 
 router.delete('/:id', asyncHandler(async (req, res) => {
