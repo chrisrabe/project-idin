@@ -14,8 +14,8 @@ const cloudantConfig = {
 
 // Singleton class of Cloudant Database
 class CloudantDatabase {
-    static instance = undefined
-    static database = undefined;
+    static instance;
+    static database;
 
     constructor() {
         CloudantDatabase.getInstance().then();
