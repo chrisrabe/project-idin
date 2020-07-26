@@ -87,6 +87,12 @@ class CloudantDatabase {
                 selector['orgName'] = { '$regex': search };
                 delete selector.partialOrgName;
             }
+            if (queryParams.partialUsername !== undefined) {
+                const partialUsername = queryParams.partialUsername;
+                const search = getSearchString(partialUsername);
+                selector['username'] = { '$regex': search };
+                delete selector.partialOrgName;
+            }
             CloudantDatabase.database.find({
                 selector
             }, (err, documents) => {
@@ -166,7 +172,7 @@ class CloudantDatabase {
     }
 
     static info = () => {
-        return CloudantDatabase.database.get(dbName).then(res => {
+        return CloudantDatabase.database.get(DATABASE_NAME).then(res => {
             logger.info(res);
             return res;
         });

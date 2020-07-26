@@ -13,6 +13,15 @@ exports.getUserList = async () => {
     return JSON.parse(response.data);
 }
 
+exports.getUsersByUsername = async (partialUsername) => {
+    const db = await database.getInstance();
+    const query = {
+        partialUsername
+    };
+    const response = await db.find(query);
+    return JSON.parse(response.data);
+};
+
 exports.getUser = async (email) => {
     const db = await database.getInstance();
     const data = {
