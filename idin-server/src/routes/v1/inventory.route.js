@@ -5,7 +5,13 @@ const controller = require('../../controllers/inventory.controller');
 
 // get all inventory associated with the organisation
 router.get('/:orgId', asyncHandler(async(req, res) => {
-	return res.noContent();
+	const { orgId } = req.params;
+	try {
+		const inventory = await controller.getInventoryList(orgId);
+		return res.ok({inventory});
+	} catch (e) {
+		res.handleError(e, req);
+	}
 }));
 
 // add new inventory

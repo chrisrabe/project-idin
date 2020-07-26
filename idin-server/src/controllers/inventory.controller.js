@@ -4,7 +4,9 @@ const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
 
 exports.getInventoryList = async (orgId) => {
-
+    const db = await database.getInstance();
+    const queryReq = await db.find({ owner: orgId });
+    return JSON.parse(queryReq.data);
 };
 
 exports.createInventory = async (itemId, amount, unitType, owner) => {
