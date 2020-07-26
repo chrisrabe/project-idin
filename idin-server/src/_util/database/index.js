@@ -6,6 +6,11 @@ function getDbConnection() {
 	return new CloudantDatabase();
 }
 
+async function getInstance() {
+	return await CloudantDatabase.getInstance();
+}
+
 module.exports = {
 	connect: getDbConnection,
+	getInstance: getInstance,
 };

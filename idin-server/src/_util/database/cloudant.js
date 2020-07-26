@@ -67,7 +67,7 @@ class CloudantDatabase {
     /**
      * Find all resources that match the specified partial name.
      */
-    find = (queryParams) => {
+    static find = (queryParams) => {
         return new Promise((resolve, reject) => {
             let selector = {...queryParams};
             if (queryParams.partialItemName !== undefined) {
@@ -97,7 +97,7 @@ class CloudantDatabase {
     /**
      * Delete a resource that matches a ID.
      */
-    deleteById = (id) => {
+    static deleteById = (id) => {
         return new Promise((resolve, reject) => {
             CloudantDatabase.database.get(id, (err, document) => {
                 if (err) {
@@ -118,7 +118,7 @@ class CloudantDatabase {
     /**
      * Create a resource with the specified attributes
      */
-    create = (data) => {
+    static create = (data) => {
         return new Promise((resolve, reject) => {
             const id = uuidv4();
             const createdAt = moment().toISOString();
@@ -140,7 +140,7 @@ class CloudantDatabase {
         });
     }
 
-    update = (id, newData) => {
+    static update = (id, newData) => {
         return new Promise(((resolve, reject) => {
             CloudantDatabase.database.get(id, (err, document) => {
                 if (err) {
@@ -160,7 +160,7 @@ class CloudantDatabase {
         }))
     }
 
-    info = () => {
+    static info = () => {
         return CloudantDatabase.database.get(dbName).then(res => {
             logger.info(res);
             return res;
