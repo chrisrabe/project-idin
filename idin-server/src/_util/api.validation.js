@@ -8,3 +8,9 @@ exports.validateRequiredFields = (data, requiredFields = []) => {
 		}
 	}
 };
+
+exports.validateAllowedValues = (data, allowedValues = []) => {
+	if(!allowedValues.includes(data)) {
+		throw new AppError(errorType.badRequest.unknown, `Invalid value: ${data}`);
+	}
+};
