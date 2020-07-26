@@ -1,7 +1,7 @@
 const database = require('../_util/database');
+const validation = require('../_util/api.validation');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
-const validation = require('../_util/api.validation');
 
 exports.getInventoryList = async (orgId) => {
     const db = await database.getInstance();
@@ -29,12 +29,27 @@ exports.createInventory = async (itemId, amount, unitType, owner) => {
         }
         validation.validateRequiredFields(newItem, Object.keys(newItem));
         validation.validateAllowedValues(unitType, ['BOXES', 'INDIVIDUAL']);
+        if (amount <= 0) {
+            throw new AppError(errorType.badRequest.unknown, "Amount equal or greater than zero");
+        }
         return db.create(newItem);
     }
 };
 
-exports.updateInventory = async () => {
-
+exports.updateInventory = async (id, amount, unitType) => {
+    const db = await database.getInstance();
+    // TODO evaluate and record transaction
+    const newData = {
+        amount,
+        unitType
+    };
+    validation.validateRequiredFields(newData, Object.keys(newData));
+    validation.validateAllowedValues(unitType, ['BOXES', 'INDIVIDUAL']);
+    if (amount === 0) {
+        return db.deleteById(id);
+    } else {
+        return db.update(id, newData);
+    }
 };
 
 exports.deleteInventory = async () => {

@@ -27,7 +27,14 @@ router.post('/', asyncHandler(async (req, res) => {
 
 // update inventory
 router.post('/:id', asyncHandler(async (req, res) => {
-
+	const { id } = req.body;
+	const { amount, unitType } = req.body;
+	try {
+		const {data} = await controller.updateInventory(id, amount, unitType);
+		return res.ok({item: data});
+	} catch (e) {
+		res.handleError(e, req);
+	}
 }));
 
 // remove inventory
