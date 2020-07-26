@@ -2,6 +2,7 @@ const Cloudant = require('@cloudant/cloudant');
 const moment = require('moment');
 const logger = require('../logger');
 const { CLOUDANT_ID, CLOUDANT_API_TOKEN, DATABASE_NAME } = require('../../_config/db.config');
+const uuidv4 = require('uuid').v4;
 
 const cloudantConfig = {
     account: CLOUDANT_ID,
@@ -10,6 +11,10 @@ const cloudantConfig = {
             iamApiKey: CLOUDANT_API_TOKEN
         }
     }
+};
+
+const getSearchString = (value) => {
+    return `(?i).*${value}.*`;
 };
 
 // Singleton class of Cloudant Database
@@ -72,13 +77,13 @@ class CloudantDatabase {
             let selector = {...queryParams};
             if (queryParams.partialItemName !== undefined) {
                 const partialItemName = queryParams.partialItemName;
-                const search = createSearchString(partialItemName);
+                const search = getSearchString(partialItemName);
                 selector['itemName'] = { '$regex': search };
                 delete selector.partialItemName;
             }
             if (queryParams.partialOrgName !== undefined) {
                 const partialOrgName = queryParams.partialOrgName;
-                const search = createSearchString(partialOrgName);
+                const search = getSearchString(partialOrgName);
                 selector['orgName'] = { '$regex': search };
                 delete selector.partialOrgName;
             }
@@ -134,7 +139,7 @@ class CloudantDatabase {
                     logger.error(`Error occured: ${err.message} create()`);
                     reject(err);
                 } else {
-                    resolve({data: { createdId: result.id, createdRevId: result.rev }, statusCode: 201});
+                    resolve({data: result, statusCode: 201});
                 }
             });
         });
