@@ -1,6 +1,7 @@
 const database = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
+const validation = require('../_util/api.validation');
 
 exports.getUserList = async () => {
     const db = await database.getInstance();
@@ -43,6 +44,7 @@ exports.updateUser = async (id, email, organisationId, role) => {
         // throw error if email taken by another user
         throw new AppError(errorType.badRequest.unknown, "Email already exist");
     }
+    validation.validateRequiredFields(newData, Object.keys(newData));
     return db.update(id, newData);
 };
 
@@ -65,6 +67,7 @@ exports.createUser = async (username, email) => {
     if (usernames.length > 0) {
         throw new AppError(errorType.badRequest.unknown, "Username already exists");
     }
+    validation.validateRequiredFields(data, ['username', 'email', 'role']);
     // create the user document
     return db.create(data);
 };
