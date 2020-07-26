@@ -4,7 +4,12 @@ const asyncHandler = require('express-async-handler');
 const controller = require('../../controllers/items.controller');
 
 router.get('/', asyncHandler(async (req, res) => {
-    // if there is no data for items, generate it
+    try {
+        const items = await controller.getItemsList();
+        return res.ok({items});
+    } catch (e) {
+        res.handleError(e, req);
+    }
 }));
 
 router.post('/', asyncHandler(async (req, res) => {
