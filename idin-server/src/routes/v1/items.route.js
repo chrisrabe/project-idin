@@ -13,7 +13,16 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 router.post('/', asyncHandler(async (req, res) => {
-    return res.noContent();
+    const {
+        itemName,
+        description
+    } = req.body;
+    try {
+        const data = await controller.createItem(itemName, description);
+        return res.created(data);
+    } catch (e) {
+        res.handleError(e, req);
+    }
 }));
 
 router.post('/:id', asyncHandler(async (req, res) => {
