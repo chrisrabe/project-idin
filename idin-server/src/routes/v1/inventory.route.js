@@ -39,8 +39,13 @@ router.post('/:id', asyncHandler(async (req, res) => {
 
 // remove inventory
 router.delete('/:id', asyncHandler(async (req, res) => {
-
+	const { id } = req.params;
+	try {
+		await controller.deleteInventory(id);
+		return res.noContent();
+	} catch (e) {
+		res.handleError(e, req);
+	}
 }));
-
 
 module.exports = router;

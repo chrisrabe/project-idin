@@ -52,7 +52,9 @@ exports.updateInventory = async (id, amount, unitType) => {
     }
 };
 
-exports.deleteInventory = async () => {
-
+exports.deleteInventory = async (id) => {
+    const db = await database.getInstance();
+    // TODO evaluate and record transaction
+    return db.deleteById(id);
 };
 
