@@ -54,7 +54,7 @@ const items = [
 		description: 'Has similar properties to natural rubber latex and are often a popular replacement in' +
 			' situations when a latex-free glove is required and manual dexterity is important.'
 	}
-]
+];
 
 module.exports = {
 	DEFAULT_APP_NAME: defaults.appName,
