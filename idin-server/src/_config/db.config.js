@@ -1,7 +1,8 @@
 const config = require('config');
 
-let id = undefined;
-let apiToken = undefined;
+let id = '<cloudant_id>';
+let apiToken = '<cloudant_apikey>';
+let dbName = 'community_db';
 
 if (config.has('database')) {
     const dbConfig = config.get('database');
@@ -11,9 +12,13 @@ if (config.has('database')) {
     if (dbConfig.cloudantApiToken) {
         apiToken = dbConfig.cloudantApiToken;
     }
+    if (dbConfig.dbName) {
+        dbName = dbConfig.dbName;
+    }
 }
 
 module.exports = {
     CLOUDANT_ID: id,
-    CLOUDANT_API_TOKEN: apiToken
+    CLOUDANT_API_TOKEN: apiToken,
+    DATABASE_NAME: dbName
 }

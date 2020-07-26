@@ -6,10 +6,12 @@ const cors = require('cors');
 
 const registerResponseHandlers = require('./_util/response.handlers');
 const corsOptions = require('./_util/cors.options');
-// TODO import cloudant
+
+// Set up database connection
+const database = require('./_util/database');
+database.connect();
 
 const app = express();
-// TODO connect to cloudant and verify
 
 // middleware setup
 app.use(logger('dev'));
