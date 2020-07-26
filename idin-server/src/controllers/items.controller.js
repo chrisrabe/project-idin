@@ -68,5 +68,13 @@ exports.updateItem = async (itemId, itemName, description) => {
 };
 
 exports.deleteItem = async (itemId) => {
-
+    const db = await database.getInstance();
+    // ensure that we are not deleting a generated item
+    const {data} = await db.find({id: itemId});
+    const curItem = JSON.parse(data);
+    if (curItem[0].isGenerated) {
+        throw new AppError(errorType.badRequest.unknown, "Cannot delete generated items");
+    }
+    // delete the item
+    return db.deleteById(itemId);
 };

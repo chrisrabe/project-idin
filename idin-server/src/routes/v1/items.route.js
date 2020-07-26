@@ -37,7 +37,13 @@ router.post('/:id', asyncHandler(async (req, res) => {
 }));
 
 router.delete('/:id', asyncHandler(async (req, res) => {
-    return res.noContent();
+    const { id } = req.params;
+    try {
+        await controller.deleteItem(id);
+        return res.noContent();
+    } catch (e) {
+        res.handleError(e, req);
+    }
 }));
 
 module.exports = router;
