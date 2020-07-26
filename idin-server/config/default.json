@@ -1,0 +1,9 @@
+{
+  "app": {
+    "name": "idin-server"
+  },
+  "database": {
+    "cloudantId": "",
+    "cloudantApiToken": ""
+  }
+}
