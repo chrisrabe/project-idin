@@ -1,10 +1,20 @@
-const database = require('../_util/database');
+const { getDatabaseInstance } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
+const { USER_ROLES } = require('../_util/constants');
+
+exports.getUsersByUsername = async (partialUsername) => {
+	const db = await getDatabaseInstance();
+	const query = {
+		partialUsername
+	};
+	const response = await db.find(query);
+	return JSON.parse(response.data);
+};
 
 exports.getUserList = async () => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	const query = {
 		email: {
 			'$regex': '.*'
@@ -14,17 +24,9 @@ exports.getUserList = async () => {
 	return JSON.parse(response.data);
 };
 
-exports.getUsersByUsername = async (partialUsername) => {
-	const db = await database.getInstance();
-	const query = {
-		partialUsername
-	};
-	const response = await db.find(query);
-	return JSON.parse(response.data);
-};
 
 exports.getUser = async (email) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	const data = {
 		email
 	};
@@ -33,7 +35,7 @@ exports.getUser = async (email) => {
 };
 
 exports.updateUser = async (id, email, organisationId, role) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	const newData = {
 		email,
 		organisationId,
@@ -45,16 +47,17 @@ exports.updateUser = async (id, email, organisationId, role) => {
 		throw new AppError(errorType.badRequest.unknown, 'Email already exist');
 	}
 	validation.validateRequiredFields(newData, Object.keys(newData));
+	validation.validateAllowedValues(role, Object.keys(USER_ROLES).map(key => USER_ROLES[key]));
 	return db.update(id, newData);
 };
 
 exports.createUser = async (username, email) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	const data = {
 		username,
 		email,
 		organisationId: '',
-		role: 'Admin'
+		role: USER_ROLES.admin
 	};
 	// ensure that email is unique
 	const result = await exports.getUser(email);

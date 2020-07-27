@@ -2,6 +2,26 @@ const defaults = {
 	appName: 'rabestudios-template-server',
 };
 
+const transactionType = {
+	add: 'ADD',
+	remove: 'REMOVE',
+	donate: 'DONATE',
+	purchase: 'PURCHASE',
+};
+
+const transactionStatus = {
+	awaitingPayment: 'AWAITING_PAYMENT',
+	pendingDelivery: 'PENDING_DELIVERY',
+	inTransit: 'IN_TRANSIT',
+	completed: 'COMPLETED',
+	canceled: 'CANCELED'
+};
+
+const userRoles = {
+	admin: 'ADMIN',
+	user: 'USER'
+};
+
 const items = [
 	{
 		itemName: 'Long sleeved gowns',
@@ -58,5 +78,8 @@ const items = [
 
 module.exports = {
 	DEFAULT_APP_NAME: defaults.appName,
-	ITEMS: items
+	ITEMS: items,
+	TRANSACTION_TYPE: transactionType,
+	TRANSACTION_STATUS: transactionStatus,
+	USER_ROLES: userRoles
 };

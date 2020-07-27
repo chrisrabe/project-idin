@@ -16,9 +16,9 @@ router.get('/:orgId', asyncHandler(async(req, res) => {
 
 // add new inventory
 router.post('/', asyncHandler(async (req, res) => {
-	const { itemId, amount, unitType, owner } = req.body;
+	const { itemId, amount, unitType, owner, userId } = req.body;
 	try {
-		const data = await controller.createInventory(itemId, amount, unitType, owner);
+		const data = await controller.createInventory(itemId, amount, unitType, owner, userId);
 		return res.created(data);
 	} catch (e) {
 		res.handleError(e, req);
@@ -28,21 +28,10 @@ router.post('/', asyncHandler(async (req, res) => {
 // update inventory
 router.post('/:id', asyncHandler(async (req, res) => {
 	const { id } = req.params;
-	const { amount } = req.body;
+	const { amount, userId } = req.body;
 	try {
-		const {data} = await controller.updateInventory(id, amount);
+		const {data} = await controller.updateInventory(id, amount, userId);
 		return res.ok({item: data});
-	} catch (e) {
-		res.handleError(e, req);
-	}
-}));
-
-// remove inventory
-router.delete('/:id', asyncHandler(async (req, res) => {
-	const { id } = req.params;
-	try {
-		await controller.deleteInventory(id);
-		return res.noContent();
 	} catch (e) {
 		res.handleError(e, req);
 	}

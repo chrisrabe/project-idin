@@ -1,10 +1,10 @@
-const database = require('../_util/database');
+const { getDatabaseInstance } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
 
 exports.getAllOrganisation = async () => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	const query = {
 		orgName: {
 			'$regex': '.*'
@@ -15,7 +15,7 @@ exports.getAllOrganisation = async () => {
 };
 
 exports.createOrganisation = async (name, isSupplier, userId, supportEmail) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	// ensure that organisation name does not exist yet
 	const orgNameRes = await db.find({ orgName: name });
 	const result = JSON.parse(orgNameRes.data);
@@ -41,7 +41,7 @@ exports.createOrganisation = async (name, isSupplier, userId, supportEmail) => {
 };
 
 exports.updateOrganisation = async (id, name, isSupplier, supportEmail) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	// ensure that organisation name is not taken
 	const orgNameRes = await db.find({ orgName: name });
 	const result = JSON.parse(orgNameRes.data);

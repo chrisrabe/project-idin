@@ -5,10 +5,12 @@ const userRoute = require('./user.route');
 const inventoryRoute = require('./inventory.route');
 const organisationRoute = require('./organisation.route');
 const itemsRoute = require('./items.route');
+const transactionRoute = require('./transaction.route');
 
 router.use('/user', userRoute);
 router.use('/inventory', inventoryRoute);
 router.use('/items', itemsRoute);
 router.use('/organisation', organisationRoute);
+router.use('/transaction', transactionRoute);
 
 module.exports = router;
