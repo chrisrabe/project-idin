@@ -39,3 +39,28 @@ export const ProjectText = styled.h1`
   font-family: Roboto;
   margin: 0;
 `;
+
+export const DeadlineText = styled.h1`
+  color: white;
+  font-size: 60px;
+  position: absolute;
+  font-weight: 500
+  text-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  margin: 0px;
+  top: 20%;
+  left: 40%;
+  text-transform: uppercase;
+`;
+
+export const KeepCalmText = styled.p`
+  font-family: Roboto;
+  color: #56CCF2;
+  font-size: 40px;
+  position: absolute;
+  font-weight: 200
+  text-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+  margin: 0px;
+  top: 65%;
+  left: 40%;
+  text-transform: uppercase;
+`;

@@ -20,6 +20,7 @@ module.exports = {
   rules: {
     'class-methods-use-this': 'off',
     'react/prop-types': 'off',
-    'import/no-unresolved': 'off'
+    'import/no-unresolved': 'off',
+    'no-restricted-syntax': 'off'
   },
 };
