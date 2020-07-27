@@ -16,9 +16,9 @@ router.get('/:orgId', asyncHandler(async(req, res) => {
 
 // add new inventory
 router.post('/', asyncHandler(async (req, res) => {
-	const { itemId, amount, unitType, owner } = req.body;
+	const { itemId, amount, unitType, owner, userId } = req.body;
 	try {
-		const data = await controller.createInventory(itemId, amount, unitType, owner);
+		const data = await controller.createInventory(itemId, amount, unitType, owner, userId);
 		return res.created(data);
 	} catch (e) {
 		res.handleError(e, req);

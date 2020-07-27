@@ -1,22 +1,27 @@
 const moment = require('moment');
-const { getDatabaseInstance } = require('../_util/database');
+const { getDatabaseInstance, getObjectById, getObjectByQuery } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
 const { TRANSACTION_STATUS, TRANSACTION_TYPE } = require('../_util/constants');
 
+const getInventory = async (db, itemId, owner) => {
+    return await getObjectByQuery(db,{ owner, itemId });
+};
+
 exports.getTransactionList = async (orgId) => {
 
 }
 
-exports.createTransaction = async (itemId, amount, unitType, executedBy, origin, destination, type, status, isPaymentRequired = false) => {
+exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false) => {
     const db = await getDatabaseInstance();
     const dateNow = moment().toISOString();
     const newData = {
         itemId,
         amount,
         unitType,
-        executedBy,
+        createdBy: userId,
+        lastUpdatedBy: userId,
         origin,
         destination,
         type,
@@ -34,6 +39,22 @@ exports.createTransaction = async (itemId, amount, unitType, executedBy, origin,
     return db.create(newData);
 };
 
-exports.updateTransaction = async (transId, status, executedBy) => {
+exports.updateTransaction = async (transId, status, userId) => {
+    const db = await getDatabaseInstance();
+    const dateNow = moment().toISOString();
+    const newData = {
+        status,
+        lastUpdated: dateNow,
+        lastUpdatedBy: userId
+    };
+    validation.validateRequiredFields(data, Object.keys(newData));
+    validation.validateAllowedValues(status, Object.keys(TRANSACTION_STATUS).map(key => TRANSACTION_STATUS[key]));
+    if (status === TRANSACTION_STATUS.completed) {
+        const transaction = await getObjectById(db, transId);
+        // add inventory to destination
+        const destInventory = await getInventory(db, transaction.itemId, transaction.destination);
 
+        // remove inventory from origin
+    }
+    return db.update(transId, newData);
 };
