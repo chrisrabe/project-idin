@@ -12,12 +12,10 @@ const getInventory = async (db, itemId, owner) => {
 exports.getTransactionList = async (orgId) => {
     const db = await getDatabaseInstance();
     const query = {
-        orgName: {
-            '$or': [
-                { origin: orgId },
-                { destination: orgId }
-            ]
-        }
+		'$or': [
+			{ origin: orgId },
+			{ destination: orgId }
+		]
     };
     const { data } = await db.find(query);
     return JSON.parse(data);
