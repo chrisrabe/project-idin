@@ -10,7 +10,17 @@ const getInventory = async (db, itemId, owner) => {
 };
 
 exports.getTransactionList = async (orgId) => {
-
+    const db = await getDatabaseInstance();
+    const query = {
+        orgName: {
+            '$or': [
+                { origin: orgId },
+                { destination: orgId }
+            ]
+        }
+    };
+    const { data } = await db.find(query);
+    return JSON.parse(data);
 };
 
 exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false) => {
