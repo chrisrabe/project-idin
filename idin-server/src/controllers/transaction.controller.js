@@ -41,11 +41,24 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 	validation.validateAllowedValues(type, Object.keys(TRANSACTION_TYPE).map(key => TRANSACTION_TYPE[key]));
 	validation.validateAllowedValues(status, Object.keys(TRANSACTION_STATUS).map(key => TRANSACTION_STATUS[key]));
 
+	const inventory = getInventory(db, itemId, origin);
+	const curUser = getObjectById(db, userId);
+
 	if (type === TRANSACTION_TYPE.remove) {
-		const inventory = getInventory(db, itemId, origin);
-		const predictedAmount = inventory.amount - amount;
+		if (inventory.length === 0) {
+			throw new AppError(errorType.badRequest.unknown, "Inventory does not exist in organisation");
+		}
+		const predictedAmount = inventory[0].amount - amount;
 		if (predictedAmount < 0) {
-			throw new AppError(errorType.badRequest.unknown, 'Origin does not have enough inventory to support transaction.');
+			throw new AppError(errorType.badRequest.unknown, 'Insufficient inventory');
+		}
+	} else if (curUser.organisationId === origin && (type === TRANSACTION_TYPE.donate || type === TRANSACTION_TYPE.purchase)) {
+		if (inventory.length === 0) {
+			throw new AppError(errorType.badRequest.unknown, "Inventory does not exist in organisation");
+		}
+		const predictedAmount = inventory[0].amount - amount;
+		if (predictedAmount < 0) {
+			throw new AppError(errorType.badRequest.unknown, 'Insufficient inventory');
 		}
 	}
 	// determine status
