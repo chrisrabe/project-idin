@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint \"**/*.js\" --fix --ignore-pattern node_modules/"
+    "lint": "eslint \"**/*.js\" \"**/*.jsx\" --fix --ignore-pattern node_modules/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,7 +36,7 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
