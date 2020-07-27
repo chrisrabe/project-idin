@@ -5,7 +5,8 @@ const defaults = {
 const transactionType = {
 	add: 'ADD',
 	remove: 'REMOVE',
-	donate: 'DONATE'
+	donate: 'DONATE',
+	purchase: 'PURCHASE',
 }
 
 const transactionStatus = {
