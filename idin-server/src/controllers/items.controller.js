@@ -1,4 +1,4 @@
-const { getDatabaseInstance } = require('../_util/database');
+const { getDatabaseInstance, getObjectById } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const { ITEMS } = require('../_util/constants');
@@ -23,6 +23,11 @@ exports.getItemsList = async () => {
 		}
 	}
 	return items;
+};
+
+exports.getItem = async (id) => {
+	const db = await getDatabaseInstance();
+	return getObjectById(db, id);
 };
 
 exports.createItem = async (itemName, description) => {
