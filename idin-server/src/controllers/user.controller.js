@@ -1,17 +1,8 @@
-const { getDatabaseInstance } = require('../_util/database');
+const { getDatabaseInstance, getObjectById } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
 const { USER_ROLES } = require('../_util/constants');
-
-exports.getUsersByUsername = async (partialUsername) => {
-	const db = await getDatabaseInstance();
-	const query = {
-		partialUsername
-	};
-	const response = await db.find(query);
-	return JSON.parse(response.data);
-};
 
 exports.getUserList = async () => {
 	const db = await getDatabaseInstance();
@@ -24,14 +15,9 @@ exports.getUserList = async () => {
 	return JSON.parse(response.data);
 };
 
-
-exports.getUser = async (email) => {
+exports.getUser = async (id) => {
 	const db = await getDatabaseInstance();
-	const data = {
-		email
-	};
-	const response = await db.find(data);
-	return JSON.parse(response.data);
+	return getObjectById(db, id)
 };
 
 exports.updateUser = async (id, email, organisationId, role) => {

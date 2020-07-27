@@ -13,29 +13,14 @@ router.get('/', asyncHandler(async (req, res) => {
 	}
 }));
 
-// get all users that partially matches username
-router.get('/partial/:username', asyncHandler(async (req, res) => {
-	const { username } = req.params;
+// get user details
+router.get('/:id', asyncHandler(async (req, res) => {
+	const { id } = req.params;
 	try {
-		if (username) {
-			const users = await controller.getUsersByUsername();
-			return res.ok({users});
-		} else {
-			res.notFound('username');
-		}
-	} catch (e) {
-		res.handleError(e, req);
-	}
-}));
-
-// get user by email
-router.get('/:email', asyncHandler(async(req, res) => {
-	const { email } = req.params;
-	try {
-		const user = await controller.getUser(email);
+		const user = await controller.getUser(id);
 		return res.ok({user});
 	} catch (e) {
-		res.handleError(e, req);
+		res.handleError(e,req);
 	}
 }));
 
