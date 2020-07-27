@@ -3,14 +3,18 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const controller = require('../../controllers/transaction.controller');
 
-router.get('/:orgId', asyncHandler(async (req, res) => {
-	const { orgId } = req.params;
+router.get('/', asyncHandler(async (req, res) => {
+	const { orgId } = req.query;
 	try {
 		const transactions = await controller.getTransactionList(orgId);
 		return res.ok({transactions});
 	} catch (e) {
 		res.handleError(e, req);
 	}
+}));
+
+router.get('/:id', asyncHandler(async (req, res) => {
+
 }));
 
 router.post('/', asyncHandler(async (req, res) => {
