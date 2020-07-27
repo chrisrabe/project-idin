@@ -8,7 +8,7 @@ const transactionController = require('./transaction.controller');
 
 const recordTransaction = async (db, itemId, oldAmount, newAmount, unitType, userId) => {
 	const curUser = await getObjectById(db, userId);
-	const transType = oldAmount < newAmount ? TRANSACTION_TYPE.remove : TRANSACTION_TYPE.add;
+	const transType = oldAmount < newAmount ? TRANSACTION_TYPE.add : TRANSACTION_TYPE.remove;
 	const amount = newAmount < 0 ? 0 : newAmount;
 	const amountChange = Math.abs(amount - oldAmount);
 	// create transaction
