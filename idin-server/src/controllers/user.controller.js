@@ -2,6 +2,7 @@ const { getDatabaseInstance } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
+const { USER_ROLES } = require('../_util/constants');
 
 exports.getUsersByUsername = async (partialUsername) => {
 	const db = await getDatabaseInstance();
@@ -46,6 +47,7 @@ exports.updateUser = async (id, email, organisationId, role) => {
 		throw new AppError(errorType.badRequest.unknown, 'Email already exist');
 	}
 	validation.validateRequiredFields(newData, Object.keys(newData));
+	validation.validateAllowedValues(role, Object.keys(USER_ROLES).map(key => USER_ROLES[key]));
 	return db.update(id, newData);
 };
 
@@ -55,7 +57,7 @@ exports.createUser = async (username, email) => {
 		username,
 		email,
 		organisationId: '',
-		role: 'Admin'
+		role: USER_ROLES.admin
 	};
 	// ensure that email is unique
 	const result = await exports.getUser(email);

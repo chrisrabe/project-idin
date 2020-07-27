@@ -30,19 +30,8 @@ router.post('/:id', asyncHandler(async (req, res) => {
 	const { id } = req.params;
 	const { amount, userId } = req.body;
 	try {
-		const {data} = await controller.updateInventory(id, amount);
+		const {data} = await controller.updateInventory(id, amount, userId);
 		return res.ok({item: data});
-	} catch (e) {
-		res.handleError(e, req);
-	}
-}));
-
-// remove inventory
-router.delete('/:id', asyncHandler(async (req, res) => {
-	const { id } = req.params;
-	try {
-		await controller.deleteInventory(id);
-		return res.noContent();
 	} catch (e) {
 		res.handleError(e, req);
 	}

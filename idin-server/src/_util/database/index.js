@@ -10,9 +10,16 @@ async function getInstance() {
 	return await CloudantDatabase.getInstance();
 }
 
+/**
+ * Gets object from database on ID.
+ * @param db
+ * @param id
+ * @returns {Promise<*>}
+ */
 async function getObjectById(db, id) {
 	const { data } = await db.find({id});
-	return JSON.parse(data);
+	const result = JSON.parse(data);
+	return result.length === 1 ? result[0] : undefined;
 }
 
 module.exports = {
