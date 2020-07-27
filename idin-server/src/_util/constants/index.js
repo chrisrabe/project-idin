@@ -7,7 +7,7 @@ const transactionType = {
 	remove: 'REMOVE',
 	donate: 'DONATE',
 	purchase: 'PURCHASE',
-}
+};
 
 const transactionStatus = {
 	awaitingPayment: 'AWAITING_PAYMENT',
@@ -15,12 +15,12 @@ const transactionStatus = {
 	inTransit: 'IN_TRANSIT',
 	completed: 'COMPLETED',
 	canceled: 'CANCELED'
-}
+};
 
 const userRoles = {
 	admin: 'ADMIN',
 	user: 'USER'
-}
+};
 
 const items = [
 	{
