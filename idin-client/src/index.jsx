@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import ErrorBoundary from 'components/common/ErrorBoundary';
+import AppThemeProvider from 'components/common/AppThemeProvider';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <ErrorBoundary>
-    <App />
+    <AppThemeProvider>
+      <App />
+    </AppThemeProvider>
   </ErrorBoundary>,
   document.getElementById('root'),
 );
