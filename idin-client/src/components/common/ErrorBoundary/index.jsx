@@ -14,8 +14,13 @@ class ErrorBoundary extends React.Component {
     };
   }
 
-  handleRefresh() {
-
+  render() {
+    const { hasError } = this.state;
+    const { children } = this.props;
+    if (hasError) {
+      return <div>Something went wrong</div>;
+    }
+    return children;
   }
 }
 

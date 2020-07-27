@@ -18,5 +18,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'class-methods-use-this': 'off',
+    'react/prop-types': 'off',
   },
 };
