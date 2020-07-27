@@ -14,7 +14,13 @@ router.get('/', asyncHandler(async (req, res) => {
 }));
 
 router.get('/:id', asyncHandler(async (req, res) => {
-
+	const { id } = req.params;
+	try {
+		const transaction = await controller.getTransactionDetails(id);
+		return res.ok({transaction});
+	} catch (e) {
+		res.handleError(e,req);
+	}
 }));
 
 router.post('/', asyncHandler(async (req, res) => {
