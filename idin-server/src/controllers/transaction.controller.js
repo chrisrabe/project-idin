@@ -86,6 +86,10 @@ exports.updateTransaction = async (transId, status, userId, message) => {
 	const curUser = await getObjectById(db, userId);
 	const transaction = await getObjectById(db, transId);
 
+	if (transaction.status === TRANSACTION_STATUS.canceled && status !== TRANSACTION_STATUS.canceled) {
+		throw new AppError(errorType.badRequest.unknown, 'Cannot update status of canceled transactions');
+	}
+
 	if (status === TRANSACTION_STATUS.completed) {
 		if (curUser.organisationId !== transaction.destination) {
 			throw new AppError(errorType.forbidden.forbidden, 'User is not from destination organisation');
@@ -118,7 +122,7 @@ exports.updateTransaction = async (transId, status, userId, message) => {
 			throw new AppError(errorType.badRequest.unknown, 'Insufficient inventory to complete transaction');
 		}
 		const newOriginInv = { ...originInventory[0], amount: originInventory[0].amount - transaction.amount };
-		await db.update(originInventory._id, newOriginInv);
+		await db.update(originInventory[0]._id, newOriginInv);
 	} else if (status === TRANSACTION_STATUS.awaitingPayment) {
 		if (curUser.organisationId !== transaction.origin) {
 			throw new AppError(errorType.forbidden.forbidden, 'User is not from origin organisation');
