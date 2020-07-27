@@ -76,8 +76,19 @@ exports.updateTransaction = async (transId, status, userId) => {
 		}
 		// add inventory to destination
 		const destInventory = await getInventory(db, transaction.itemId, transaction.destination);
-		const newDestInv = { ...destInventory, amount: destInventory.amount + transaction.amount };
-		await db.update(destInventory._id, newDestInv);
+		if (destInventory.length === 0) {
+			// create new inventory
+			const newData = {
+				itemId: transaction.itemId,
+				amount: transaction.amount,
+				unitType: transaction.unitType,
+				owner: transaction.destination
+			};
+			await db.create(newData);
+		} else {
+			const newDestInv = { ...destInventory[0], amount: destInventory.amount + transaction.amount };
+			await db.update(destInventory._id, newDestInv);
+		}
 	} else if (status === TRANSACTION_STATUS.inTransit) {
 		if (curUser.organisationId !== transaction.origin) {
 			throw new AppError(errorType.forbidden.forbidden, 'User is not from origin organisation');
