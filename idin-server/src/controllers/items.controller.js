@@ -1,11 +1,11 @@
-const database = require('../_util/database');
+const { getDatabaseInstance } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const { ITEMS } = require('../_util/constants');
 const validation = require('../_util/api.validation');
 
 exports.getItemsList = async () => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	const query = {
 		itemName: {
 			'$regex': '.*'
@@ -26,7 +26,7 @@ exports.getItemsList = async () => {
 };
 
 exports.createItem = async (itemName, description) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	// do not create if it already exists
 	const items = await db.find({ itemName });
 	const result = JSON.parse(items.data);
@@ -45,7 +45,7 @@ exports.createItem = async (itemName, description) => {
 };
 
 exports.updateItem = async (itemId, itemName, description) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	// ensure that we're not updating item to existing one
 	const items = await db.find({ itemName });
 	const result = JSON.parse(items.data);
@@ -68,7 +68,7 @@ exports.updateItem = async (itemId, itemName, description) => {
 };
 
 exports.deleteItem = async (itemId) => {
-	const db = await database.getInstance();
+	const db = await getDatabaseInstance();
 	// ensure that we are not deleting a generated item
 	const {data} = await db.find({id: itemId});
 	const curItem = JSON.parse(data);

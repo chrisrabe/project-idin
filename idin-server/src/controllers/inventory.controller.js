@@ -1,16 +1,16 @@
-const database = require('../_util/database');
+const { getDatabaseInstance, getObjectById } = require('../_util/database');
 const validation = require('../_util/api.validation');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 
 exports.getInventoryList = async (orgId) => {
-    const db = await database.getInstance();
+    const db = await getDatabaseInstance();
     const queryReq = await db.find({ owner: orgId });
     return JSON.parse(queryReq.data);
 };
 
 exports.createInventory = async (itemId, amount, unitType, owner) => {
-    const db = await database.getInstance();
+    const db = await getDatabaseInstance();
     const queryReq = await db.find({ owner });
     const curInventory = JSON.parse(queryReq.data);
     const existingItems = curInventory.filter(item => item.itemId === itemId)
@@ -36,8 +36,9 @@ exports.createInventory = async (itemId, amount, unitType, owner) => {
     }
 };
 
-exports.updateInventory = async (id, amount) => {
-    const db = await database.getInstance();
+exports.updateInventory = async (id, amount, userId) => {
+    const db = await getDatabaseInstance();
+
     // TODO evaluate and record transaction
     const newData = {
         amount
@@ -51,7 +52,7 @@ exports.updateInventory = async (id, amount) => {
 };
 
 exports.deleteInventory = async (id) => {
-    const db = await database.getInstance();
+    const db = await getDatabaseInstance();
     // TODO evaluate and record transaction
     return db.deleteById(id);
 };
