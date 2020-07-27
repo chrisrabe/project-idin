@@ -43,7 +43,7 @@ exports.createOrganisation = async (name, isSupplier, userId, supportEmail) => {
 exports.getOrganisation = async (id) => {
 	const db = await getDatabaseInstance();
 	return getObjectById(db, id);
-}
+};
 
 
 exports.updateOrganisation = async (id, name, isSupplier, supportEmail) => {

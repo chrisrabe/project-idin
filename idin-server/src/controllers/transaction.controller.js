@@ -10,15 +10,15 @@ const getInventory = async (db, itemId, owner) => {
 };
 
 exports.getTransactionList = async (orgId) => {
-    const db = await getDatabaseInstance();
-    const query = {
+	const db = await getDatabaseInstance();
+	const query = {
 		'$or': [
 			{ origin: orgId },
 			{ destination: orgId }
 		]
-    };
-    const { data } = await db.find(query);
-    return JSON.parse(data);
+	};
+	const { data } = await db.find(query);
+	return JSON.parse(data);
 };
 
 exports.getTransactionDetails = async (id) => {
@@ -51,7 +51,7 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 
 	if (type === TRANSACTION_TYPE.remove) {
 		if (inventory.length === 0) {
-			throw new AppError(errorType.badRequest.unknown, "Inventory does not exist in organisation");
+			throw new AppError(errorType.badRequest.unknown, 'Inventory does not exist in organisation');
 		}
 		const predictedAmount = inventory[0].amount - amount;
 		if (predictedAmount < 0) {
@@ -59,7 +59,7 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 		}
 	} else if (curUser.organisationId === origin && (type === TRANSACTION_TYPE.donate || type === TRANSACTION_TYPE.purchase)) {
 		if (inventory.length === 0) {
-			throw new AppError(errorType.badRequest.unknown, "Inventory does not exist in organisation");
+			throw new AppError(errorType.badRequest.unknown, 'Inventory does not exist in organisation');
 		}
 		const predictedAmount = inventory[0].amount - amount;
 		if (predictedAmount < 0) {

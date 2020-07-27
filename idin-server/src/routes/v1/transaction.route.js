@@ -55,14 +55,14 @@ router.post('/', asyncHandler(async (req, res) => {
 }));
 
 router.post('/:id', asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const { status,  userId, message } = req.body;
-    try {
-        const { data } = await controller.updateTransaction(id, status, userId, message);
-        return res.ok({transaction: data});
-    } catch (e) {
-        res.handleError(e, req);
-    }
+	const { id } = req.params;
+	const { status,  userId, message } = req.body;
+	try {
+		const { data } = await controller.updateTransaction(id, status, userId, message);
+		return res.ok({transaction: data});
+	} catch (e) {
+		res.handleError(e, req);
+	}
 }));
 
 module.exports = router;

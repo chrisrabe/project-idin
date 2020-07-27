@@ -17,7 +17,7 @@ exports.getUserList = async () => {
 
 exports.getUser = async (id) => {
 	const db = await getDatabaseInstance();
-	return getObjectById(db, id)
+	return getObjectById(db, id);
 };
 
 exports.updateUser = async (id, email, organisationId, role) => {

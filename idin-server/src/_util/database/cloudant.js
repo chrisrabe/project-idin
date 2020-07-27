@@ -19,8 +19,6 @@ const getSearchString = (value) => {
 
 // Singleton class of Cloudant Database
 class CloudantDatabase {
-    static instance;
-    static database;
 
     constructor() {
         CloudantDatabase.getInstance().then();
