@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { getDatabaseInstance } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
@@ -10,6 +11,7 @@ exports.getTransactionList = async (orgId) => {
 
 exports.createTransaction = async (itemId, amount, unitType, executedBy, origin, destination, type, status, isPaymentRequired = false) => {
     const db = await getDatabaseInstance();
+    const dateNow = moment().toISOString();
     const newData = {
         itemId,
         amount,
@@ -18,7 +20,9 @@ exports.createTransaction = async (itemId, amount, unitType, executedBy, origin,
         origin,
         destination,
         type,
-    }
+        createdAt: dateNow,
+        lastUpdated: dateNow
+    };
     // validation
     validation.validateRequiredFields(newData, Object.keys(newData));
     validation.validateAllowedValues(type, Object.keys(TRANSACTION_TYPE).map(key => TRANSACTION_TYPE[key]));
@@ -28,4 +32,8 @@ exports.createTransaction = async (itemId, amount, unitType, executedBy, origin,
         isPaymentRequired ? TRANSACTION_STATUS.awaitingPayment : TRANSACTION_STATUS.pendingDelivery
         : status;
     return db.create(newData);
+};
+
+exports.updateTransaction = async (transId, status, executedBy) => {
+
 };
