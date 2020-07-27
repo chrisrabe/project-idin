@@ -21,7 +21,7 @@ exports.getTransactionList = async (orgId) => {
     return JSON.parse(data);
 };
 
-exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false) => {
+exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false, message) => {
 	const db = await getDatabaseInstance();
 	const dateNow = moment().toISOString();
 	const newData = {
@@ -39,10 +39,10 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 	// validation
 	validation.validateRequiredFields(newData, Object.keys(newData));
 	validation.validateAllowedValues(type, Object.keys(TRANSACTION_TYPE).map(key => TRANSACTION_TYPE[key]));
-	validation.validateAllowedValues(status, Object.keys(TRANSACTION_STATUS).map(key => TRANSACTION_STATUS[key]));
+	newData.message = message;
 
-	const inventory = getInventory(db, itemId, origin);
-	const curUser = getObjectById(db, userId);
+	const inventory = await getInventory(db, itemId, origin);
+	const curUser = await getObjectById(db, userId);
 
 	if (type === TRANSACTION_TYPE.remove) {
 		if (inventory.length === 0) {
@@ -65,10 +65,12 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 	newData.status = status === undefined ?
 		isPaymentRequired ? TRANSACTION_STATUS.awaitingPayment : TRANSACTION_STATUS.pendingDelivery
 		: status;
+	validation.validateAllowedValues(newData.status, Object.keys(TRANSACTION_STATUS).map(key => TRANSACTION_STATUS[key]));
+
 	return db.create(newData);
 };
 
-exports.updateTransaction = async (transId, status, userId) => {
+exports.updateTransaction = async (transId, status, userId, message) => {
 	const db = await getDatabaseInstance();
 	const dateNow = moment().toISOString();
 	const newData = {
@@ -79,8 +81,9 @@ exports.updateTransaction = async (transId, status, userId) => {
 	// validation
 	validation.validateRequiredFields(newData, Object.keys(newData));
 	validation.validateAllowedValues(status, Object.keys(TRANSACTION_STATUS).map(key => TRANSACTION_STATUS[key]));
+	newData.message = message;
 
-	const curUser = getObjectById(db, userId);
+	const curUser = await getObjectById(db, userId);
 	const transaction = await getObjectById(db, transId);
 
 	if (status === TRANSACTION_STATUS.completed) {
@@ -108,7 +111,13 @@ exports.updateTransaction = async (transId, status, userId) => {
 		}
 		// remove inventory from origin
 		const originInventory = await getInventory(db, transaction.itemId, transaction.origin);
-		const newOriginInv = { ...originInventory, amount: originInventory.amount + transaction.amount };
+		if (originInventory.length === 0) {
+			newData.status = TRANSACTION_STATUS.canceled;
+			newData.message = 'Insufficient inventory to complete transaction';
+			await db.update(transId, newData);
+			throw new AppError(errorType.badRequest.unknown, 'Insufficient inventory to complete transaction');
+		}
+		const newOriginInv = { ...originInventory[0], amount: originInventory[0].amount - transaction.amount };
 		await db.update(originInventory._id, newOriginInv);
 	} else if (status === TRANSACTION_STATUS.awaitingPayment) {
 		if (curUser.organisationId !== transaction.origin) {

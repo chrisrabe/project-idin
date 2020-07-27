@@ -22,7 +22,8 @@ router.post('/', asyncHandler(async (req, res) => {
 		origin,
 		destination,
 		type,
-		isPaymentRequired
+		isPaymentRequired,
+		message
 	} = req.body;
 	try {
 		const data = await controller.createTransaction(
@@ -34,7 +35,8 @@ router.post('/', asyncHandler(async (req, res) => {
 			destination,
 			type,
 			undefined,
-			isPaymentRequired
+			isPaymentRequired,
+			message
 		);
 		return res.created(data);
 	} catch (e) {
@@ -44,9 +46,9 @@ router.post('/', asyncHandler(async (req, res) => {
 
 router.post('/:id', asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const { status, userId } = req.body;
+    const { status,  userId, message } = req.body;
     try {
-        const { data } = await controller.updateTransaction(id, status, userId);
+        const { data } = await controller.updateTransaction(id, status, userId, message);
         return res.ok({transaction: data});
     } catch (e) {
         res.handleError(e, req);
