@@ -21,6 +21,11 @@ exports.getTransactionList = async (orgId) => {
     return JSON.parse(data);
 };
 
+exports.getTransactionDetails = async (id) => {
+	const db = await getDatabaseInstance();
+	return getObjectById(db, id);
+};
+
 exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false, message) => {
 	const db = await getDatabaseInstance();
 	const dateNow = moment().toISOString();

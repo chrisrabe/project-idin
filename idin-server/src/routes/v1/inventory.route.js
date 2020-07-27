@@ -4,8 +4,8 @@ const asyncHandler = require('express-async-handler');
 const controller = require('../../controllers/inventory.controller');
 
 // get all inventory associated with the organisation
-router.get('/:orgId', asyncHandler(async(req, res) => {
-	const { orgId } = req.params;
+router.get('/', asyncHandler(async(req, res) => {
+	const { orgId } = req.query;
 	try {
 		const inventory = await controller.getInventoryList(orgId);
 		return res.ok({inventory});

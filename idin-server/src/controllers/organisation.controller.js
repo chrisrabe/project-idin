@@ -1,4 +1,4 @@
-const { getDatabaseInstance } = require('../_util/database');
+const { getDatabaseInstance, getObjectById } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
@@ -39,6 +39,12 @@ exports.createOrganisation = async (name, isSupplier, userId, supportEmail) => {
 	await db.update(userId, userData);
 	return newOrg;
 };
+
+exports.getOrganisation = async (id) => {
+	const db = await getDatabaseInstance();
+	return getObjectById(db, id);
+}
+
 
 exports.updateOrganisation = async (id, name, isSupplier, supportEmail) => {
 	const db = await getDatabaseInstance();

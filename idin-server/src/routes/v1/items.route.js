@@ -12,6 +12,16 @@ router.get('/', asyncHandler(async (req, res) => {
 	}
 }));
 
+router.get('/:id', asyncHandler(async (req, res) => {
+	const { id } = req.params;
+	try {
+		const item = await controller.getItem(id);
+		return res.ok({item});
+	} catch (e) {
+		res.handleError(e,req);
+	}
+}));
+
 router.post('/', asyncHandler(async (req, res) => {
 	const {
 		itemName,
