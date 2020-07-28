@@ -44,7 +44,7 @@ router.post('/:id', asyncHandler(async (req, res) => {
 router.post('/', asyncHandler(async (req, res) => {
 	const {
 		username,
-		email
+		email,
 	} = req.body;
 
 	try {
