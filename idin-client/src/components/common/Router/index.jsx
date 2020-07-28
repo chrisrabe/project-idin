@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Route, Switch, Redirect, useLocation,
 } from 'react-router-dom';
-import Navigation from 'components/common/Navigation';
+import Navigation from '../Navigation/container';
 import {
   Landing,
   Inventory,
@@ -14,7 +14,7 @@ import {
   MainContainer,
 } from './styles';
 
-const Router = (props) => {
+const Router = () => {
   const { pathname } = useLocation();
   return (
     <React.Suspense fallback={<></>}>
