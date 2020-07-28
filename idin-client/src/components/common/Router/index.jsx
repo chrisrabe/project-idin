@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Route, Switch, Redirect, useLocation,
+  Route, Switch, Redirect, useLocation, useHistory,
 } from 'react-router-dom';
 import Navigation from 'components/common/Navigation';
 import {
@@ -14,8 +14,13 @@ import {
   MainContainer,
 } from './styles';
 
-const Router = () => {
+const Router = (props) => {
+  const { userId, orgId } = props;
   const { pathname } = useLocation();
+  const history = useHistory();
+  if (pathname !== '/' && (!userId || !orgId)) {
+    history.push('/');
+  }
   return (
     <React.Suspense fallback={<></>}>
       <MainContainer>
