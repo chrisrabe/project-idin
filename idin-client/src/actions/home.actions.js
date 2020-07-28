@@ -3,6 +3,8 @@ import {
   CREATE_ORG_SUCCESS,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
+  SIGN_IN,
+  SIGN_OUT,
 } from './action.types';
 
 export const createOrgRequest = () => ({
@@ -21,4 +23,14 @@ export const createUserRequest = () => ({
 export const createUserSuccess = (userId) => ({
   type: CREATE_USER_SUCCESS,
   userId,
+});
+
+export const signIn = (userId, orgId) => ({
+  type: SIGN_IN,
+  userId,
+  orgId,
+});
+
+export const signOut = () => ({
+  type: SIGN_OUT,
 });

@@ -14,3 +14,6 @@ export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 
 export const CREATE_ORG_REQUEST = 'CREATE_ORG_REQUEST';
 export const CREATE_ORG_SUCCESS = 'CREATE_ORG_SUCCESS';
+
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_OUT = 'SIGN_OUT';

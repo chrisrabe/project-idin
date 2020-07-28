@@ -3,6 +3,8 @@ import {
   CREATE_ORG_SUCCESS,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
+  SIGN_IN,
+  SIGN_OUT,
 } from 'actions/action.types';
 import storeInitialState from 'store/initial.state';
 
@@ -19,6 +21,10 @@ export default function homeReducer(state = initialState, action) {
       return { ...state, isCreatingOrg: true };
     case CREATE_ORG_SUCCESS:
       return { ...state, isCreatingOrg: false, orgId: action.orgId };
+    case SIGN_IN:
+      return { ...state, userId: action.userId, orgId: action.orgId };
+    case SIGN_OUT:
+      return { ...state, userId: undefined, orgId: undefined };
     default:
       return state;
   }
