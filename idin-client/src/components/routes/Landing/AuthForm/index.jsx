@@ -4,7 +4,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useTheme } from '@material-ui/core/styles';
-import RegisterPanel from 'components/routes/Landing/AuthForm/RegisterPanel';
+import RegisterPanel from 'components/routes/Landing/AuthForm/RegisterPanel/container';
 import SignInPanel from './SignInPanel/container';
 
 const MainForm = styled.div`
