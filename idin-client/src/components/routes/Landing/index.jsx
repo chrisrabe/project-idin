@@ -3,8 +3,8 @@ import bgImage from 'assets/img/bg-image.png';
 import cfcImage from 'assets/img/cfc-logo.svg';
 import idinLogo from 'assets/img/idin-logo.png';
 import styled from 'styled-components';
-import {Grid, Typography} from '@material-ui/core';
-import SignInForm from 'components/routes/Landing/SignInForm';
+import { Grid, Typography } from '@material-ui/core';
+import AuthForm from 'components/routes/Landing/AuthForm';
 import {
   StyledImage,
 } from './styles';
@@ -81,7 +81,7 @@ const Landing = () => (
           </ParagraphContainer>
         </AppDetailsContainer>
         <FormContainer item container xs={6} alignContent="center" justify="flex-end">
-          <SignInForm />
+          <AuthForm />
         </FormContainer>
       </Grid>
       <Grid container item xs={12} alignItems="flex-end">

@@ -16,6 +16,7 @@ import {
 
 const Router = () => {
   const { pathname } = useLocation();
+  console.log(pathname);
   return (
     <React.Suspense fallback={<></>}>
       <MainContainer>
