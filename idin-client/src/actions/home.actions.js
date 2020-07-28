@@ -1,25 +1,29 @@
 import {
-  SET_DEADLINE,
-  SET_TIME_LEFT,
-  DECREASE_TIME,
+  CREATE_ORG_REQUEST,
+  CREATE_ORG_SUCCESS,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
 } from './action.types';
 
-export function setDeadline(deadline) {
-  return {
-    type: SET_DEADLINE,
-    deadline,
-  };
-}
+export const createOrgRequest = (userId, orgName, isSupplier) => ({
+  type: CREATE_ORG_REQUEST,
+  userId,
+  orgName,
+  isSupplier,
+});
 
-export function decreaseTime() {
-  return {
-    type: DECREASE_TIME,
-  };
-}
+export const createOrgSuccess = (orgId) => ({
+  type: CREATE_ORG_SUCCESS,
+  orgId,
+});
 
-export function setTimeLeft(timeLeft) {
-  return {
-    type: SET_TIME_LEFT,
-    timeLeft,
-  };
-}
+export const createUserRequest = (username, email) => ({
+  type: CREATE_USER_REQUEST,
+  username,
+  email,
+});
+
+export const createUserSuccess = (userId) => ({
+  type: CREATE_USER_SUCCESS,
+  userId,
+});
