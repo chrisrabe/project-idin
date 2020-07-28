@@ -18,7 +18,8 @@ exports.getItemsList = async () => {
 		const missingItems = ITEMS.filter(item => !items.includes(item));
 		for (const item of missingItems) {
 			item.isGenerated = true;
-			await db.create(item);
+			const {data} = await db.create(item);
+			item.id = data.id;
 			items.push(item);
 		}
 	}
