@@ -5,11 +5,8 @@ import {
   CREATE_USER_SUCCESS,
 } from './action.types';
 
-export const createOrgRequest = (userId, orgName, isSupplier) => ({
+export const createOrgRequest = () => ({
   type: CREATE_ORG_REQUEST,
-  userId,
-  orgName,
-  isSupplier,
 });
 
 export const createOrgSuccess = (orgId) => ({
@@ -17,10 +14,8 @@ export const createOrgSuccess = (orgId) => ({
   orgId,
 });
 
-export const createUserRequest = (username, email) => ({
+export const createUserRequest = () => ({
   type: CREATE_USER_REQUEST,
-  username,
-  email,
 });
 
 export const createUserSuccess = (userId) => ({
