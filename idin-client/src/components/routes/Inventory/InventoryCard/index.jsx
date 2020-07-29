@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card, Grid, Typography,
 } from '@material-ui/core';
@@ -23,6 +24,12 @@ const BodyText = styled(Typography)`
 
 const InventoryCard = (props) => {
   const { item } = props;
+  const history = useHistory();
+
+  const navigateToDetails = useCallback(() => {
+    history.push(`inventory/${item.id}`);
+  }, [history, item.id]);
+
   return (
     <MainContainer item container xs={3} alignItems="flex-start">
       <BodyContainer>
@@ -36,7 +43,7 @@ const InventoryCard = (props) => {
             <BodyText variant="body1" display="block" noWrap>{ item.description || 'No description' }</BodyText>
           </Grid>
           <Grid item xs={12}>
-            <Button color="default">DETAILS</Button>
+            <Button color="default" onClick={navigateToDetails}>DETAILS</Button>
             <Button color="primary">ADD</Button>
             <Button color="secondary">REMOVE</Button>
           </Grid>

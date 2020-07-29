@@ -19,7 +19,7 @@ const NavItem = (props) => {
   } = props;
   const { pathname } = useLocation();
   const history = useHistory();
-  const isSelected = pathname === route;
+  const isSelected = pathname.includes(route) && route !== '/';
 
   const handleClick = useCallback(() => {
     if (!onClick) {
