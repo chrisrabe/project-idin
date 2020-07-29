@@ -5,11 +5,12 @@ import * as appActions from 'actions/app.actions';
 import Inventory from '../index';
 
 function mapStateToProps(state) {
-  const { inventory, home } = state;
+  const { inventory, home, app } = state;
   return {
     userId: home.userId,
     orgId: home.orgId,
     inventory: inventory.inventory,
+    items: app.items,
   };
 }
 

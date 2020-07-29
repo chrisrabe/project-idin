@@ -46,7 +46,7 @@ exports.createUser = async (username, email) => {
 		role: USER_ROLES.admin
 	};
 	// ensure that email is unique
-	const result = await exports.getUser(email);
+	const result = await db.find({email});
 	if (result.length > 0) {
 		throw new AppError(errorType.badRequest.unknown, 'Email already exists');
 	}

@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import {
   Dialog, DialogTitle,
 } from '@material-ui/core';
+import styled from 'styled-components';
+
+const StyledDialogTitle = styled(DialogTitle)`
+  width: 300px;
+`;
 
 const AppDialog = (props) => {
   const {
@@ -10,7 +15,7 @@ const AppDialog = (props) => {
   } = props;
   return (
     <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>{title}</DialogTitle>
+      <StyledDialogTitle>{title}</StyledDialogTitle>
       {body}
     </Dialog>
   );
