@@ -48,10 +48,11 @@ router.post('/:id', asyncHandler(async (req, res) => {
 	const {
 		message,
 		status,
-		transactionId
+		transactionId,
+		responderId
 	} = req.body;
 	try {
-		const { data } = await controller.updateRequest(id, message, status, transactionId);
+		const { data } = await controller.updateRequest(id, message, status, transactionId, responderId);
 		return res.ok({request: data});
 	} catch (e) {
 		res.handleError(e, req);
