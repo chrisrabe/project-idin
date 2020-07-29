@@ -57,3 +57,5 @@ router.post('/:id', asyncHandler(async (req, res) => {
 		res.handleError(e, req);
 	}
 }));
+
+module.exports = router;
