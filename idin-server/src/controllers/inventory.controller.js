@@ -27,7 +27,26 @@ const recordTransaction = async (db, itemId, oldAmount, newAmount, unitType, use
 exports.getInventoryList = async (orgId) => {
 	const db = await getDatabaseInstance();
 	const queryReq = await db.find({ owner: orgId });
-	return JSON.parse(queryReq.data);
+	const inventory = JSON.parse(queryReq.data);
+	for (const inv of inventory) {
+		const item = await getObjectById(db , inv.itemId);
+		inv.name = item ? item.itemName : 'Unknown Item';
+		inv.description = item ? item.description : 'No description';
+		inv.inTransit = 0; // TODO check transactions
+	}
+	return inventory;
+};
+
+exports.getInventoryDetails = async (id) => {
+	const db = await getDatabaseInstance();
+	const inventory = await getObjectById(db, id);
+	if (inventory) {
+		const item = await getObjectById(db, inventory.itemId);
+		inventory.name = item ? item.itemName : 'Unknown Item';
+		inventory.description = item ? item.description : 'No description';
+		inventory.inTransit = 0; // TODO check transactions
+	}
+	return inventory;
 };
 
 exports.createInventory = async (itemId, amount, unitType, owner, userId) => {
