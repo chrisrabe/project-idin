@@ -82,11 +82,24 @@ const items = [
 	}
 ];
 
+const requestType = {
+	auto: 'AUTOMATED',
+	manual: 'MANUAL'
+};
+
+const requestStatus = {
+	pending: 'PENDING',
+	confirmed: 'CONFIRMED',
+	declined: 'DECLINED'
+};
+
 module.exports = {
 	DEFAULT_APP_NAME: defaults.appName,
 	ITEMS: items,
 	TRANSACTION_TYPE: transactionType,
 	TRANSACTION_STATUS: transactionStatus,
 	USER_ROLES: userRoles,
-	ADDITIONAL_FIELDS: additionalFields
+	ADDITIONAL_FIELDS: additionalFields,
+	REQUEST_TYPE: requestType,
+	REQUEST_STATUS: requestStatus
 };
