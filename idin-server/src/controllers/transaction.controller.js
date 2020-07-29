@@ -1,20 +1,21 @@
 const moment = require('moment');
-const { getDatabaseInstance, getObjectById, getObjectByQuery } = require('../_util/database');
+const { getDatabaseInstance, getObjectById, getObjectByQuery, getDataWithAdditionalFields } = require('../_util/database');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const validation = require('../_util/api.validation');
-const { TRANSACTION_STATUS, TRANSACTION_TYPE } = require('../_util/constants');
+const { TRANSACTION_STATUS, TRANSACTION_TYPE, ADDITIONAL_FIELDS } = require('../_util/constants');
+const { getValueFromArrayById } = require('../_util/helper');
 
 const getInventory = async (db, itemId, owner) => {
 	return await getObjectByQuery(db,{ owner, itemId });
 };
 
-const setLinkedValues = async (db, transaction) => {
-	const item = await getObjectById(db, transaction.itemId);
-	const createdBy = await getObjectById(db, transaction.createdBy);
-	const lastUpdatedBy = await getObjectById(db, transaction.lastUpdatedBy);
-	const origin = await getObjectById(db, transaction.origin);
-	const destination = await getObjectById(db, transaction.destination);
+const setLinkedValues = (transaction, users, orgs, items) => {
+	const item = getValueFromArrayById(transaction.itemId, items);
+	const createdBy = getValueFromArrayById(transaction.createdBy, users);
+	const lastUpdatedBy = getValueFromArrayById(transaction.lastUpdatedBy, users);
+	const origin = getValueFromArrayById(transaction.origin, orgs);
+	const destination = getValueFromArrayById(transaction.destination, orgs);
 
 	transaction.itemName = item ? item.itemName : 'Unknown item';
 	transaction.createdByUser = createdBy ? createdBy.username : 'Unknown user';
@@ -29,26 +30,26 @@ const setLinkedValues = async (db, transaction) => {
 
 exports.getTransactionList = async (orgId) => {
 	const db = await getDatabaseInstance();
-	const query = {
-		'$or': [
-			{ origin: orgId },
-			{ destination: orgId }
-		]
-	};
-	const { data } = await db.find(query);
-	return JSON.parse(data);
-	// for (const transaction of transactions) {
-	// 	await setLinkedValues(db, transaction);
-	// }
+	const query = [{ origin: orgId }, { destination: orgId } ];
+	const additionalFields = [ADDITIONAL_FIELDS.item, ADDITIONAL_FIELDS.organisation, ADDITIONAL_FIELDS.user];
+	const queryRes = await getDataWithAdditionalFields(db, query, additionalFields);
+	const { data, users, items, organisations } = queryRes;
+	for (const transaction of data) {
+		setLinkedValues(transaction, users, organisations, items);
+	}
+	return data;
 };
 
 exports.getTransactionDetails = async (id) => {
 	const db = await getDatabaseInstance();
-	const transaction = await getObjectById(db, id);
-	if (transaction) {
-		await setLinkedValues(db, transaction);
+	const query = [{id}];
+	const additionalFields = [ADDITIONAL_FIELDS.item, ADDITIONAL_FIELDS.organisation, ADDITIONAL_FIELDS.user];
+	const queryRes = await getDataWithAdditionalFields(db, query, additionalFields);
+	const { data, users, items, organisations } = queryRes;
+	for (const transaction of data) {
+		setLinkedValues(transaction, users, organisations, items);
 	}
-	return transaction;
+	return data;
 };
 
 exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false, message) => {
