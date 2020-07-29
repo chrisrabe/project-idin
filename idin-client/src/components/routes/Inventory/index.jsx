@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import { Grid } from '@material-ui/core';
@@ -24,7 +24,7 @@ const InventoryList = styled(Grid)`
 
 const Inventory = (props) => {
   const {
-    inventory, invActions, orgId, appActions,
+    inventory, invActions, orgId, appActions, userId,
   } = props;
 
   useEffect(() => {
@@ -32,6 +32,10 @@ const Inventory = (props) => {
       invActions.getInventoryList(orgId);
     }
   }, [invActions, orgId]);
+
+  const handleUpdate = useCallback((id, newAmount) => {
+    invActions.updateInventory(id, newAmount, userId, orgId);
+  }, [invActions, orgId, userId]);
 
   return (
     <MainContainer container>
@@ -45,6 +49,7 @@ const Inventory = (props) => {
             item={item}
             openDialog={appActions.openDialog}
             closeDialog={appActions.closeDialog}
+            onUpdateItem={(newAmount) => handleUpdate(item.id, newAmount)}
           />
         ))}
       </InventoryList>

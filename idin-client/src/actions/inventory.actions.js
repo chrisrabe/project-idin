@@ -3,6 +3,8 @@ import {
   REQUEST_INVENTORY_LIST,
   SET_INVENTORY,
   SET_INVENTORY_LIST,
+  REQUEST_UPDATE_INVENTORY,
+  REQUEST_CREATE_INVENTORY,
 } from './action.types';
 
 export const requestInventory = () => ({
@@ -21,4 +23,12 @@ export const setInventoryList = (inventory) => ({
 export const setInventory = (selectedInventory) => ({
   type: SET_INVENTORY,
   selectedInventory,
+});
+
+export const requestUpdateInventory = () => ({
+  type: REQUEST_UPDATE_INVENTORY,
+});
+
+export const requestCreateInventory = () => ({
+  type: REQUEST_CREATE_INVENTORY,
 });

@@ -24,7 +24,9 @@ const BodyText = styled(Typography)`
 `;
 
 const InventoryCard = (props) => {
-  const { item, openDialog, closeDialog } = props;
+  const {
+    item, openDialog, closeDialog, onUpdateItem,
+  } = props;
   const history = useHistory();
 
   const navigateToDetails = useCallback(() => {
@@ -32,10 +34,36 @@ const InventoryCard = (props) => {
   }, [history, item.id]);
 
   const handleAdd = useCallback(() => {
-    const body = <UpdateForm onClose={closeDialog} submitText="Add" onSubmit={(value) => console.log(`Adding ${value}`)} />;
+    const body = (
+      <UpdateForm
+        onClose={closeDialog}
+        submitText="Confirm"
+        onSubmit={(value) => {
+          const num = parseInt(value, 10);
+          onUpdateItem(item.amount + num);
+          closeDialog();
+        }}
+      />
+    );
     const title = 'Add items';
     openDialog({ title, body });
-  }, [openDialog, closeDialog]);
+  }, [openDialog, closeDialog, item.amount, onUpdateItem]);
+
+  const handleRemove = useCallback(() => {
+    const body = (
+      <UpdateForm
+        onClose={closeDialog}
+        submitText="Confirm"
+        onSubmit={(value) => {
+          const num = parseInt(value, 10);
+          onUpdateItem(item.amount - num);
+          closeDialog();
+        }}
+      />
+    );
+    const title = 'Remove items';
+    openDialog({ title, body });
+  }, [openDialog, closeDialog, item.amount, onUpdateItem]);
 
   return (
     <MainContainer item container xs={3} alignItems="flex-start">
@@ -52,7 +80,7 @@ const InventoryCard = (props) => {
           <Grid item xs={12}>
             <Button color="default" onClick={navigateToDetails}>DETAILS</Button>
             <Button color="primary" onClick={handleAdd}>ADD</Button>
-            <Button color="secondary">REMOVE</Button>
+            <Button color="secondary" onClick={handleRemove}>REMOVE</Button>
           </Grid>
         </Grid>
       </BodyContainer>
@@ -64,6 +92,7 @@ InventoryCard.propTypes = {
   item: PropTypes.any.isRequired,
   openDialog: PropTypes.func,
   closeDialog: PropTypes.func,
+  onUpdateItem: PropTypes.func,
 };
 
 export default InventoryCard;
