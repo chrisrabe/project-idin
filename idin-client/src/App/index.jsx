@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Router from 'components/common/Router';
-import styled from "styled-components";
-
-const MainContainer = styled.div`
-  background-color: #4F4F4F;
-`;
 
 const App = (props) => {
   const {
@@ -31,9 +26,9 @@ const App = (props) => {
   }, [orgActions, userActions, itemActions, homeActions, history, pathname]);
 
   return (
-    <MainContainer>
+    <div>
       <Router />
-    </MainContainer>
+    </div>
   );
 };
 
