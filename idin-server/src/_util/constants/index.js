@@ -22,6 +22,12 @@ const userRoles = {
 	user: 'USER'
 };
 
+const additionalFields = {
+	user: 'user',
+	item: 'item',
+	organisation: 'organisation'
+}
+
 const items = [
 	{
 		itemName: 'Long sleeved gowns',
@@ -81,5 +87,6 @@ module.exports = {
 	ITEMS: items,
 	TRANSACTION_TYPE: transactionType,
 	TRANSACTION_STATUS: transactionStatus,
-	USER_ROLES: userRoles
+	USER_ROLES: userRoles,
+	ADDITIONAL_FIELDS: additionalFields
 };

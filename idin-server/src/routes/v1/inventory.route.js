@@ -25,6 +25,16 @@ router.post('/', asyncHandler(async (req, res) => {
 	}
 }));
 
+router.get('/:id', asyncHandler( async (req, res) => {
+	const { id } = req.params;
+	try {
+		const inventory = await controller.getInventoryDetails(id);
+		return res.ok({inventory});
+	} catch (e) {
+		res.handleError(e, req);
+	}
+}));
+
 // update inventory
 router.post('/:id', asyncHandler(async (req, res) => {
 	const { id } = req.params;
