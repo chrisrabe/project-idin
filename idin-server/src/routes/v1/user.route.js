@@ -29,11 +29,10 @@ router.post('/:id', asyncHandler(async (req, res) => {
 	const { id } = req.params;
 	const {
 		email,
-		organisationId,
-		role
+		organisationId
 	} = req.body;
 	try {
-		const result = await controller.updateUser(id, email, organisationId, role);
+		const result = await controller.updateUser(id, email, organisationId);
 		return res.ok({user: result.data});
 	} catch (e) {
 		res.handleError(e, req);
