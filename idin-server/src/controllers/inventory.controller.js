@@ -1,8 +1,8 @@
-const { getDatabaseInstance, getObjectById } = require('../_util/database');
+const { getDatabaseInstance, getObjectById, getDataWithAdditionalFields } = require('../_util/database');
 const validation = require('../_util/api.validation');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
-const { TRANSACTION_TYPE, TRANSACTION_STATUS } = require('../_util/constants');
+const { TRANSACTION_TYPE, TRANSACTION_STATUS, ADDITIONAL_FIELDS } = require('../_util/constants');
 
 const transactionController = require('./transaction.controller');
 
@@ -24,10 +24,43 @@ const recordTransaction = async (db, itemId, oldAmount, newAmount, unitType, use
 	);
 };
 
+const setLinkedFields = (inv, items) => {
+	let item = items.filter(item => item.id === inv.itemId);
+	if (item.length > 0) {
+		item = item[0];
+		inv.name = item.itemName;
+		inv.description = item.description;
+	} else {
+		inv.name = 'Unknown Item';
+		inv.description = 'No description';
+	}
+	inv.inTransit = 0; // TODO check transactions
+};
+
 exports.getInventoryList = async (orgId) => {
 	const db = await getDatabaseInstance();
-	const queryReq = await db.find({ owner: orgId });
-	return JSON.parse(queryReq.data);
+	const queryRes = await getDataWithAdditionalFields(
+		db,
+		[{owner: orgId}],
+		[ADDITIONAL_FIELDS.item]
+	);
+	const inventory = queryRes.data;
+	for (const inv of inventory) {
+		setLinkedFields(inv, queryRes.items);
+	}
+	return inventory;
+};
+
+exports.getInventoryDetails = async (id) => {
+	const db = await getDatabaseInstance();
+	const inventory = await getObjectById(db, id);
+	if (inventory) {
+		const item = await getObjectById(db, inventory.itemId);
+		inventory.name = item ? item.itemName : 'Unknown Item';
+		inventory.description = item ? item.description : 'No description';
+		inventory.inTransit = 0; // TODO check transactions
+	}
+	return inventory;
 };
 
 exports.createInventory = async (itemId, amount, unitType, owner, userId) => {
