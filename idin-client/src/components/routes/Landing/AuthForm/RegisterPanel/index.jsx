@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useTheme } from '@material-ui/core/styles';
 import TabPanel from 'components/routes/Landing/AuthForm/TabPanel';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
+import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { ButtonContainer } from '../../styles';
@@ -13,12 +14,25 @@ const newOrg = 'Create new...';
 
 const RegisterPanel = (props) => {
   const theme = useTheme();
-  const { value, orgs } = props;
+  const {
+    value, orgs, userApi, userId, orgId,
+  } = props;
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [isNewOrg, setIsNewOrg] = useState(false);
   const [newOrgName, setNewOrgName] = useState('');
   const [isSupplier, setIsSupplier] = useState(false);
   const [selectedOrg, setSelectedOrg] = useState(undefined);
   const orgOptions = [{ orgName: newOrg }, ...orgs];
+
+  const history = useHistory();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname === '/' && orgId && userId) {
+      history.push('/inventory');
+    }
+  }, [history, pathname, orgId, userId]);
 
   const handleOrgChange = useCallback((e, org) => {
     if (org) {
@@ -34,25 +48,40 @@ const RegisterPanel = (props) => {
     setNewOrgName(e.target.value);
   }, [setNewOrgName]);
 
-  const onRadioSelect = (checked) => {
-    setIsSupplier(checked);
-  };
-
-  // TODO do this last
-  const handleClick = () => {
-    if (isNewOrg) {
-      // create new user
-      // create new org
-    } else {
-      // extract id from selected org
-      // create new user linked to that org
+  const handleClick = useCallback(() => {
+    if (!username || !email || (!selectedOrg && !newOrgName)) {
+      return;
     }
-  };
+    const org = isNewOrg ? { orgName: newOrgName, isSupplier } : selectedOrg;
+    userApi.createUser(username, email, org);
+  }, [
+    isNewOrg,
+    selectedOrg,
+    newOrgName,
+    isSupplier,
+    username,
+    email,
+    userApi,
+  ]);
 
   return (
     <TabPanel value={value} index={1} dir={theme.direction}>
-      <TextField id="username" label="Username" variant="outlined" fullWidth margin="normal" />
-      <TextField id="email" label="Email" variant="outlined" fullWidth margin="normal" />
+      <TextField
+        id="username"
+        label="Username"
+        variant="outlined"
+        onChange={(e) => setUsername(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        id="email"
+        label="Email"
+        variant="outlined"
+        fullWidth
+        onChange={(e) => setEmail(e.target.value)}
+        margin="normal"
+      />
       <Autocomplete
         getOptionLabel={(option) => option.orgName}
         onChange={handleOrgChange}
@@ -63,14 +92,19 @@ const RegisterPanel = (props) => {
         <>
           <TextField id="orgName" label="Company Name" variant="outlined" fullWidth margin="normal" onChange={handleOrgNameChange} />
           <FormControlLabel
-            onChange={(event) => onRadioSelect(event.target.checked)}
-            control={<Radio color="primary" />}
+            control={(
+              <Checkbox
+                color="primary"
+                checked={isSupplier}
+                onChange={(e) => setIsSupplier(e.target.checked)}
+              />
+              )}
             label="Are you a supplier?"
           />
         </>
       )}
       <ButtonContainer>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleClick}>
           Register
         </Button>
       </ButtonContainer>

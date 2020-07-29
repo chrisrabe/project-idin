@@ -20,20 +20,18 @@ exports.getUser = async (id) => {
 	return getObjectById(db, id);
 };
 
-exports.updateUser = async (id, email, organisationId, role) => {
+exports.updateUser = async (id, email, organisationId) => {
 	const db = await getDatabaseInstance();
 	const newData = {
 		email,
-		organisationId,
-		role
+		organisationId
 	};
-	const result = await exports.getUser(email);
+	const result = await db.find({email});
 	if (result.length > 0 && result.findIndex(item => item.id !== id) !== -1) {
 		// throw error if email taken by another user
 		throw new AppError(errorType.badRequest.unknown, 'Email already exist');
 	}
 	validation.validateRequiredFields(newData, Object.keys(newData));
-	validation.validateAllowedValues(role, Object.keys(USER_ROLES).map(key => USER_ROLES[key]));
 	return db.update(id, newData);
 };
 
