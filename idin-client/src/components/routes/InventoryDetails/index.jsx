@@ -99,7 +99,7 @@ const InventoryDetails = (props) => {
         </BodyContainer>
       </MainContainer>
     );
-  }, [selectedInventory]);
+  }, [selectedInventory, goBack]);
 };
 
 export default InventoryDetails;

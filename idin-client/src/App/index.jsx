@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Router from 'components/common/Router';
+import AppDialog from 'components/common/AppDialog';
 
 const App = (props) => {
   const {
-    orgActions, userActions, itemActions, homeActions,
+    orgActions, userActions, itemActions, homeActions, appActions, dialog,
   } = props;
 
   const history = useHistory();
@@ -25,9 +26,19 @@ const App = (props) => {
     }
   }, [orgActions, userActions, itemActions, homeActions, history, pathname]);
 
+  const handleClose = useCallback(() => {
+    appActions.closeDialog();
+  }, [appActions]);
+
   return (
     <div>
       <Router />
+      <AppDialog
+        isOpen={dialog !== undefined}
+        title={dialog && dialog.title}
+        body={dialog && dialog.body}
+        handleClose={handleClose}
+      />
     </div>
   );
 };

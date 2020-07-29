@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import LabeledIcon from 'components/ui/LabeledIcon';
 import PropTypes from 'prop-types';
+import UpdateForm from '../UpdateForm';
 
 const MainContainer = styled(Grid)`
   margin: 10px;
@@ -23,12 +24,18 @@ const BodyText = styled(Typography)`
 `;
 
 const InventoryCard = (props) => {
-  const { item } = props;
+  const { item, openDialog, closeDialog } = props;
   const history = useHistory();
 
   const navigateToDetails = useCallback(() => {
     history.push(`inventory/${item.id}`);
   }, [history, item.id]);
+
+  const handleAdd = useCallback(() => {
+    const body = <UpdateForm onClose={closeDialog} submitText="Add" onSubmit={(value) => console.log(`Adding ${value}`)} />;
+    const title = 'Add items';
+    openDialog({ title, body });
+  }, [openDialog, closeDialog]);
 
   return (
     <MainContainer item container xs={3} alignItems="flex-start">
@@ -44,7 +51,7 @@ const InventoryCard = (props) => {
           </Grid>
           <Grid item xs={12}>
             <Button color="default" onClick={navigateToDetails}>DETAILS</Button>
-            <Button color="primary">ADD</Button>
+            <Button color="primary" onClick={handleAdd}>ADD</Button>
             <Button color="secondary">REMOVE</Button>
           </Grid>
         </Grid>
@@ -55,6 +62,8 @@ const InventoryCard = (props) => {
 
 InventoryCard.propTypes = {
   item: PropTypes.any.isRequired,
+  openDialog: PropTypes.func,
+  closeDialog: PropTypes.func,
 };
 
 export default InventoryCard;

@@ -12,6 +12,7 @@ const initialState = {
     isFetchingUsers: false,
     isFetchingItems: false,
     isFetchingOrgs: false,
+    dialog: undefined,
   },
   inventory: {
     selectedInventory: undefined,

@@ -1,5 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as appActions from 'actions/app.actions';
 import * as orgActions from 'actions/api/organisation';
 import * as userActions from 'actions/api/user';
 import * as itemActions from 'actions/api/item';
@@ -12,11 +13,13 @@ function mapStateToProps(state) {
     orgs: app.orgs,
     users: app.users,
     items: app.items,
+    dialog: app.dialog,
   };
 }
 
 function mapStateToDispatch(dispatch) {
   return {
+    appActions: bindActionCreators(appActions, dispatch),
     orgActions: bindActionCreators(orgActions, dispatch),
     userActions: bindActionCreators(userActions, dispatch),
     itemActions: bindActionCreators(itemActions, dispatch),

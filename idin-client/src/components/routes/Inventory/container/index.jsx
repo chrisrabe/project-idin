@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as invActions from 'actions/api/inventory';
+import * as appActions from 'actions/app.actions';
 import Inventory from '../index';
 
 function mapStateToProps(state) {
@@ -14,6 +15,7 @@ function mapStateToProps(state) {
 function mapStateToDispatch(dispatch) {
   return {
     invActions: bindActionCreators(invActions, dispatch),
+    appActions: bindActionCreators(appActions, dispatch),
   };
 }
 

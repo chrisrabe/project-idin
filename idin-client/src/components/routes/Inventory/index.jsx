@@ -23,7 +23,9 @@ const InventoryList = styled(Grid)`
 `;
 
 const Inventory = (props) => {
-  const { inventory, invActions, orgId } = props;
+  const {
+    inventory, invActions, orgId, appActions,
+  } = props;
 
   useEffect(() => {
     if (orgId) {
@@ -38,7 +40,12 @@ const Inventory = (props) => {
       </HeaderContainer>
       <InventoryList container alignItems="flex-start">
         { inventory.map((item) => (
-          <InventoryCard key={item.id} item={item} />
+          <InventoryCard
+            key={item.id}
+            item={item}
+            openDialog={appActions.openDialog}
+            closeDialog={appActions.closeDialog}
+          />
         ))}
       </InventoryList>
     </MainContainer>
