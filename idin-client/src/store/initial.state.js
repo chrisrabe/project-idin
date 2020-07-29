@@ -13,6 +13,10 @@ const initialState = {
     isFetchingItems: false,
     isFetchingOrgs: false,
   },
+  inventory: {
+    selectedInventory: undefined,
+    inventory: [],
+  },
 };
 
 export default initialState;

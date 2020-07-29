@@ -9,7 +9,7 @@ import NavItem from './NavItem';
 
 const MainContainer = styled.div`
   height: 100vh;
-  width: 300px;
+  min-width: 300px;
   background-color: #333333;
   display: flex;
   flex-direction: column;

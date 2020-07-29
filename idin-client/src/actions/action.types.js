@@ -17,3 +17,10 @@ export const CREATE_ORG_SUCCESS = 'CREATE_ORG_SUCCESS';
 
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
+
+// Inventory Actions
+export const REQUEST_INVENTORY_LIST = 'REQUEST_INVENTORY_LIST';
+export const SET_INVENTORY_LIST = 'SET_INVENTORY_LIST';
+
+export const REQUEST_INVENTORY = 'REQUEST_INVENTORY';
+export const SET_INVENTORY = 'SET_INVENTORY';

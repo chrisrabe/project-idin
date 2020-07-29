@@ -1,4 +1,4 @@
-export { default as Inventory } from './Inventory';
+export { default as Inventory } from './Inventory/container';
 export { default as Requests } from './Requests';
 export { default as Transactions } from './Transactions';
 export { default as Profile } from './Profile';

@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import TabPanel from 'components/routes/Landing/AuthForm/TabPanel';
 import TextField from '@material-ui/core/TextField';
@@ -47,7 +47,7 @@ const RegisterPanel = (props) => {
       // extract id from selected org
       // create new user linked to that org
     }
-  }
+  };
 
   return (
     <TabPanel value={value} index={1} dir={theme.direction}>
