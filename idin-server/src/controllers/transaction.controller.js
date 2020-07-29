@@ -26,7 +26,7 @@ const setLinkedValues = (transaction, users, orgs, items) => {
 	transaction.originSupportEmail = origin ? origin.supportEmail : 'N/A';
 	transaction.destCompany = destination ? destination.orgName : 'Unknown company';
 	transaction.destSupportEmail = destination ? destination.supportEmail : 'N/A';
-}
+};
 
 exports.getTransactionList = async (orgId) => {
 	const db = await getDatabaseInstance();
@@ -49,7 +49,7 @@ exports.getTransactionDetails = async (id) => {
 	for (const transaction of data) {
 		setLinkedValues(transaction, users, organisations, items);
 	}
-	return data;
+	return data.length > 0 ? data[0] : undefined;
 };
 
 exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false, message) => {

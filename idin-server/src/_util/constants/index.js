@@ -26,7 +26,7 @@ const additionalFields = {
 	user: 'user',
 	item: 'item',
 	organisation: 'organisation'
-}
+};
 
 const items = [
 	{

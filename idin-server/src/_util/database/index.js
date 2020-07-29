@@ -48,7 +48,7 @@ async function getDataWithAdditionalFields(db, originalQuery, additional = []) {
 	}
 	const query = {
 		'$or': fieldsToRetrieve
-	}
+	};
 	const users = [];
 	const organisations = [];
 	const items = [];
@@ -71,7 +71,7 @@ async function getDataWithAdditionalFields(db, originalQuery, additional = []) {
 		users,
 		organisations,
 		items
-	}
+	};
 }
 
 module.exports = {
