@@ -9,6 +9,24 @@ const getInventory = async (db, itemId, owner) => {
 	return await getObjectByQuery(db,{ owner, itemId });
 };
 
+const setLinkedValues = async (db, transaction) => {
+	const item = await getObjectById(db, transaction.itemId);
+	const createdBy = await getObjectById(db, transaction.createdBy);
+	const lastUpdatedBy = await getObjectById(db, transaction.lastUpdatedBy);
+	const origin = await getObjectById(db, transaction.origin);
+	const destination = await getObjectById(db, transaction.destination);
+
+	transaction.itemName = item ? item.itemName : 'Unknown item';
+	transaction.createdByUser = createdBy ? createdBy.username : 'Unknown user';
+	transaction.createdByEmail = createdBy ? createdBy.email : 'N/A';
+	transaction.lastUpdatedByUser = lastUpdatedBy ? lastUpdatedBy.username : 'Unknown user';
+	transaction.lastUpdatedByEmail = lastUpdatedBy ? lastUpdatedBy.email : 'N/A';
+	transaction.originCompany = origin ? origin.orgName : 'Unknown company';
+	transaction.originSupportEmail = origin ? origin.supportEmail : 'N/A';
+	transaction.destCompany = destination ? destination.orgName : 'Unknown company';
+	transaction.destSupportEmail = destination ? destination.supportEmail : 'N/A';
+}
+
 exports.getTransactionList = async (orgId) => {
 	const db = await getDatabaseInstance();
 	const query = {
@@ -19,11 +37,18 @@ exports.getTransactionList = async (orgId) => {
 	};
 	const { data } = await db.find(query);
 	return JSON.parse(data);
+	// for (const transaction of transactions) {
+	// 	await setLinkedValues(db, transaction);
+	// }
 };
 
 exports.getTransactionDetails = async (id) => {
 	const db = await getDatabaseInstance();
-	return getObjectById(db, id);
+	const transaction = await getObjectById(db, id);
+	if (transaction) {
+		await setLinkedValues(db, transaction);
+	}
+	return transaction;
 };
 
 exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false, message) => {
