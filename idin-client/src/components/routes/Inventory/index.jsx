@@ -13,6 +13,10 @@ const HeaderContainer = styled.div`
   margin-bottom: 10px;
 `;
 
+const HeaderText = styled(Typography)`
+  color: white;
+`;
+
 const InventoryList = styled(Grid)`
   max-height: 60%;
   overflow-y: scroll;
@@ -25,12 +29,12 @@ const Inventory = (props) => {
     if (orgId) {
       invActions.getInventoryList(orgId);
     }
-  }, [invActions]);
+  }, [invActions, orgId]);
 
   return (
     <MainContainer container>
       <HeaderContainer>
-        <Typography variant="h4">Current Inventory</Typography>
+        <HeaderText variant="h4">Current Inventory</HeaderText>
       </HeaderContainer>
       <InventoryList container alignItems="flex-start">
         { inventory.map((item) => (

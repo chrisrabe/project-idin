@@ -22,8 +22,12 @@ export default function homeReducer(state = initialState, action) {
     case CREATE_ORG_SUCCESS:
       return { ...state, isCreatingOrg: false, orgId: action.orgId };
     case SIGN_IN:
+      window.sessionStorage.setItem('userId', action.userId);
+      window.sessionStorage.setItem('orgId', action.orgId);
       return { ...state, userId: action.userId, orgId: action.orgId };
     case SIGN_OUT:
+      window.sessionStorage.removeItem('userId');
+      window.sessionStorage.removeItem('orgId');
       return { ...state, userId: undefined, orgId: undefined };
     default:
       return state;
