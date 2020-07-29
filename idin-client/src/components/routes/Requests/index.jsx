@@ -7,10 +7,14 @@ const HeaderContainer = styled(Grid)`
   padding: 20px;
 `;
 
+const HeaderText = styled(Typography)`
+  color: white;
+`;
+
 const Inventory = () => (
   <Grid container>
     <HeaderContainer item xs={12}>
-      <Typography variant="h4">Requests</Typography>
+      <HeaderText variant="h4">Requests</HeaderText>
     </HeaderContainer>
   </Grid>
 );

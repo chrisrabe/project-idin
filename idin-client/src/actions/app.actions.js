@@ -5,7 +5,18 @@ import {
   RECEIVE_USERS,
   RECEIVE_ORGS,
   RECEIVE_ITEMS,
+  OPEN_DIALOG,
+  CLOSE_DIALOG,
 } from './action.types';
+
+export const openDialog = (dialog) => ({
+  type: OPEN_DIALOG,
+  dialog,
+});
+
+export const closeDialog = () => ({
+  type: CLOSE_DIALOG,
+});
 
 export const requestUsers = () => ({
   type: REQUEST_USERS,

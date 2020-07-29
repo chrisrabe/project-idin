@@ -4,4 +4,5 @@ import styled from 'styled-components';
 export const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
+  ${(props) => (props.isLoggedIn ? 'background-color: #4F4F4F;' : '')}
 `;

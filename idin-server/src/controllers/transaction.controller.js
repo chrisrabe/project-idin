@@ -75,15 +75,7 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 	const inventory = await getInventory(db, itemId, origin);
 	const curUser = await getObjectById(db, userId);
 
-	if (type === TRANSACTION_TYPE.remove) {
-		if (inventory.length === 0) {
-			throw new AppError(errorType.badRequest.unknown, 'Inventory does not exist in organisation');
-		}
-		const predictedAmount = inventory[0].amount - amount;
-		if (predictedAmount < 0) {
-			throw new AppError(errorType.badRequest.unknown, 'Insufficient inventory');
-		}
-	} else if (curUser.organisationId === origin && (type === TRANSACTION_TYPE.donate || type === TRANSACTION_TYPE.purchase)) {
+	if (curUser.organisationId === origin && (type === TRANSACTION_TYPE.donate || type === TRANSACTION_TYPE.purchase)) {
 		if (inventory.length === 0) {
 			throw new AppError(errorType.badRequest.unknown, 'Inventory does not exist in organisation');
 		}

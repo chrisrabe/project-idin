@@ -9,6 +9,7 @@ import {
   Profile,
   Requests,
   Transactions,
+  InventoryDetails,
 } from '../../routes';
 import {
   MainContainer,
@@ -18,11 +19,12 @@ const Router = () => {
   const { pathname } = useLocation();
   return (
     <React.Suspense fallback={<></>}>
-      <MainContainer>
+      <MainContainer isLoggedIn={pathname !== '/'}>
         { pathname !== '/' && <Navigation /> }
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route exact path="/inventory" component={Inventory} />
+          <Route exact path="/inventory/:id" component={InventoryDetails} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/request" component={Requests} />
           <Route exact path="/transaction" component={Transactions} />
