@@ -14,8 +14,8 @@ export const getInventoryList = (orgId) => async (dispatch) => {
       orgId,
     },
   });
-  const { organisations } = data;
-  dispatch(setInventoryList(organisations));
+  const { inventory } = data;
+  dispatch(setInventoryList(inventory));
 };
 
 export const getInventoryDetails = (id) => async (dispatch) => {

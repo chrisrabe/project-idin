@@ -4,8 +4,9 @@ import * as invActions from 'actions/api/inventory';
 import Inventory from '../index';
 
 function mapStateToProps(state) {
-  const { inventory } = state;
+  const { inventory, home } = state;
   return {
+    orgId: home.orgId,
     inventory: inventory.inventory,
   };
 }

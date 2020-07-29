@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import { Grid } from '@material-ui/core';
@@ -19,7 +19,14 @@ const InventoryList = styled(Grid)`
 `;
 
 const Inventory = (props) => {
-  const { inventory } = props;
+  const { inventory, invActions, orgId } = props;
+
+  useEffect(() => {
+    if (orgId) {
+      invActions.getInventoryList(orgId);
+    }
+  }, [invActions]);
+
   return (
     <MainContainer container>
       <HeaderContainer>
