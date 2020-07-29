@@ -19,8 +19,9 @@ const HeaderText = styled(Typography)`
 `;
 
 const InventoryList = styled(Grid)`
-  max-height: 60%;
+  max-height: 80%;
   overflow-y: scroll;
+  width: 100%;
 `;
 
 const Inventory = (props) => {
@@ -40,8 +41,7 @@ const Inventory = (props) => {
 
   const handleCreate = useCallback((newInv) => {
     if (newInv) {
-      console.log(newInv);
-      invActions.createInventory(newInv.itemId, newInv.amount, orgId, userId);
+      invActions.createInventory(newInv.itemId, newInv.amount, userId, orgId);
     }
   }, [invActions, orgId, userId]);
 
