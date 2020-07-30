@@ -54,6 +54,21 @@ const AppTitleContainer = styled.div`
   padding-left: 20px;
 `;
 
+const SubtitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 50px;
+`;
+
+const SubtitleText = styled(Typography)`
+  color: #333333;
+  font-weight: 800;
+  text-transform: uppercase;
+  background-color: #52BFE2;
+  padding: 5px;
+  border-radius: 20px;
+`;
+
 const AppTitleText = styled(Typography)`
   font-size: 60px;
   color: white;
@@ -75,6 +90,11 @@ const Landing = () => (
             <AppTitleContainer>
               <AppTitleText variant="body1">PROJECT IDIN</AppTitleText>
             </AppTitleContainer>
+            <SubtitleContainer>
+              <SubtitleText variant="body2">
+                DEMO
+              </SubtitleText>
+            </SubtitleContainer>
           </LogoContainer>
           <ParagraphContainer>
             <BigText>Stay on top of your inventory through our predictive analysis</BigText>
