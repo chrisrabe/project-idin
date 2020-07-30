@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as transAction from 'actions/api/transaction';
-import Inventory from '../index';
+import Transactions from '../index';
 
 function mapStateToProps(state) {
   const { transaction, home } = state;
@@ -17,4 +17,4 @@ function mapStateToDispatch(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapStateToDispatch)(Inventory);
+export default connect(mapStateToProps, mapStateToDispatch)(Transactions);

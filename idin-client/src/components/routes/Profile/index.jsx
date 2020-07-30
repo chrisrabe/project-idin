@@ -11,7 +11,7 @@ const HeaderText = styled(Typography)`
   color: white;
 `;
 
-const Inventory = () => (
+const Profile = () => (
   <Grid container>
     <HeaderContainer item xs={12}>
       <HeaderText variant="h4">Profile</HeaderText>
@@ -19,4 +19,4 @@ const Inventory = () => (
   </Grid>
 );
 
-export default Inventory;
+export default Profile;
