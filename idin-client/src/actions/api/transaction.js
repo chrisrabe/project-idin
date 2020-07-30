@@ -16,6 +16,6 @@ export const getTransactionList = (orgId) => async (dispatch) => {
       orgId,
     },
   });
-  const { inventory } = data;
-  dispatch(setTransactionList(inventory));
+  const { transactions } = data;
+  dispatch(setTransactionList(transactions));
 };
