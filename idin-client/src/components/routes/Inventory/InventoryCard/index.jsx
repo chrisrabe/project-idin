@@ -7,6 +7,7 @@ import { faShippingFast, faBoxes } from '@fortawesome/free-solid-svg-icons';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
 import LabeledIcon from 'components/ui/LabeledIcon';
+import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import UpdateForm from '../UpdateForm';
 
@@ -70,8 +71,16 @@ const InventoryCard = (props) => {
       <BodyContainer>
         <Grid container spacing={2}>
           <Grid item container xs={12} direction="row">
-            <LabeledIcon icon={faShippingFast} label={item.inTransit} />
-            <LabeledIcon icon={faBoxes} label={item.amount} />
+            <Tooltip title="Incoming Delivery" placement="top" arrow>
+              <div style={{ cursor: 'pointer' }}>
+                <LabeledIcon icon={faShippingFast} label={item.inTransit} />
+              </div>
+            </Tooltip>
+            <Tooltip title="Stocks in hand" placement="top" arrow>
+              <div style={{ cursor: 'pointer' }}>
+                <LabeledIcon icon={faBoxes} label={item.amount} />
+              </div>
+            </Tooltip>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h4" noWrap>{item.name}</Typography>

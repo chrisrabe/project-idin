@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
-import { Grid } from '@material-ui/core';
+import { Grid, Tooltip } from '@material-ui/core';
 import LabeledIcon from 'components/ui/LabeledIcon';
 import {
   faShippingFast, faBoxes, faCalendar, faFire, faEnvelope,
@@ -90,8 +90,16 @@ const InventoryDetails = (props) => {
               <HeaderText variant="h4">{title}</HeaderText>
             </HeaderContainer>
             <HeaderContainer item container xs={6} direction="row" alignContent="center" justify="flex-end">
-              <LabeledIcon icon={faShippingFast} label={inTransitText} color="#F2F2F2" size="3x" />
-              <LabeledIcon icon={faEnvelope} label={outgoing} color="#F2F2F2" size="3x" />
+              <Tooltip title="Incoming delivery">
+                <div style={{ cursor: 'pointer' }}>
+                  <LabeledIcon icon={faShippingFast} label={inTransitText} color="#F2F2F2" size="3x" />
+                </div>
+              </Tooltip>
+              <Tooltip title="Outgoing delivery">
+                <div style={{ cursor: 'pointer' }}>
+                  <LabeledIcon icon={faEnvelope} label={outgoing} color="#F2F2F2" size="3x" />
+                </div>
+              </Tooltip>
             </HeaderContainer>
           </Grid>
         </TopContainer>
