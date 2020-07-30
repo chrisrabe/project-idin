@@ -8,9 +8,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
 import { ButtonContainer } from '../../styles';
 
 const newOrg = 'Create new...';
+const warningText = 'Warning: This demo version does not secure your data.'
+  + ' Please do not put in sensitive information.';
 
 const RegisterPanel = (props) => {
   const theme = useTheme();
@@ -103,6 +106,11 @@ const RegisterPanel = (props) => {
           />
         </>
       )}
+      <ButtonContainer>
+        <Typography variant="body2" color="secondary">
+          {warningText}
+        </Typography>
+      </ButtonContainer>
       <ButtonContainer>
         <Button variant="contained" color="primary" onClick={handleClick}>
           Register
