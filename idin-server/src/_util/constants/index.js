@@ -14,7 +14,8 @@ const transactionStatus = {
 	pendingDelivery: 'PENDING_DELIVERY',
 	inTransit: 'IN_TRANSIT',
 	completed: 'COMPLETED',
-	canceled: 'CANCELED'
+	canceled: 'CANCELED',
+	paid: 'PAID'
 };
 
 const userRoles = {

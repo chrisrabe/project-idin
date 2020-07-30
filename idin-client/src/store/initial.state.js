@@ -18,6 +18,9 @@ const initialState = {
     selectedInventory: undefined,
     inventory: [],
   },
+  transaction: {
+    transactions: [],
+  },
 };
 
 export default initialState;
