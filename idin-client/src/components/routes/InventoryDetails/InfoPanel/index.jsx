@@ -14,7 +14,7 @@ const PanelContainer = styled(Paper)`
 
 const ValueText = styled(Typography)`
   font-weight: 500;
-  font-size: 150px;
+  font-size: 7rem;
 `;
 
 const LabelText = styled(Typography)`
