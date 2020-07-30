@@ -5,7 +5,6 @@ import {
   faBoxes,
   faClipboard,
   faEnvelopeOpen,
-  faPowerOff,
 } from '@fortawesome/free-solid-svg-icons';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';

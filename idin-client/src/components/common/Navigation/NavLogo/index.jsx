@@ -43,7 +43,7 @@ const NavLogo = (props) => {
   const handleSignOut = useCallback(() => {
     onSignOut();
     history.push('/');
-  }, [onSignOut]);
+  }, [onSignOut, history]);
 
   const handleProfile = useCallback(() => {
     history.push('/profile');
