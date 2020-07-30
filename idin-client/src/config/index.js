@@ -10,6 +10,7 @@ const config = {
       items: '/items',
       inventory: '/inventory',
       transaction: '/transaction',
+      requests: '/requests',
     },
   },
 };

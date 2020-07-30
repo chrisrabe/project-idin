@@ -22,7 +22,7 @@ const TransactionListContainer = styled(Grid)`
   padding: 20px;
 `;
 
-const Inventory = (props) => {
+const Transactions = (props) => {
   const { transactions, transAction, orgId } = props;
 
   useEffect(() => {
@@ -43,4 +43,4 @@ const Inventory = (props) => {
   );
 };
 
-export default Inventory;
+export default Transactions;

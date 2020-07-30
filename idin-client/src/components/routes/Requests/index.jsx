@@ -1,22 +1,56 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
-import { Grid } from '@material-ui/core';
+import RequestList from 'components/routes/Requests/RequestList';
+import { reqStatus } from 'utils/constants';
 
-const HeaderContainer = styled(Grid)`
+const MainContainer = styled.div`
   padding: 20px;
+  width: 100%;
+`;
+
+const HeaderContainer = styled.div`
+  height: 50px;
 `;
 
 const HeaderText = styled(Typography)`
   color: white;
 `;
 
-const Inventory = () => (
-  <Grid container>
-    <HeaderContainer item xs={12}>
-      <HeaderText variant="h4">Requests</HeaderText>
-    </HeaderContainer>
-  </Grid>
-);
+const Requests = (props) => {
+  const { orgId, reqAction, requests } = props;
 
-export default Inventory;
+  useEffect(() => {
+    if (orgId) {
+      reqAction.getRequestList(orgId);
+    }
+  }, [reqAction, orgId]);
+  return useMemo(() => {
+    const inboundReqs = [];
+    const outboundReqs = [];
+    for (const req of requests) {
+      if (req.reqOrigin === orgId && req.status === reqStatus.pending) {
+        outboundReqs.push(req);
+      } else if (req.status === reqStatus.pending) {
+        inboundReqs.push(req);
+      }
+    }
+    return (
+      <MainContainer>
+        <HeaderContainer>
+          <HeaderText variant="h4">Requests</HeaderText>
+        </HeaderContainer>
+        <HeaderText variant="h5">
+          {`Inbound Requests (${inboundReqs.length})`}
+        </HeaderText>
+        <RequestList requests={inboundReqs} orgId={orgId} />
+        <HeaderText variant="h5">
+          {`Outbound Requests (${outboundReqs.length})`}
+        </HeaderText>
+        <RequestList requests={outboundReqs} orgId={orgId} />
+      </MainContainer>
+    );
+  }, [requests, orgId]);
+};
+
+export default Requests;

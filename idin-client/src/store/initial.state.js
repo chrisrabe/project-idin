@@ -21,6 +21,9 @@ const initialState = {
   transaction: {
     transactions: [],
   },
+  requests: {
+    requests: [],
+  },
 };
 
 export default initialState;
