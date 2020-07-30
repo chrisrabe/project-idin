@@ -40,7 +40,7 @@ const About = () => (
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <StyledText variant="body2">v1.0.0-alpha</StyledText>
-        <StyledText variant="body2">Creator: Chris Rabe (a.k.a Rabe Studios)</StyledText>
+        <StyledText variant="body2">Creator: Chris Rabe (Rabe Studios)</StyledText>
       </Grid>
       <Grid item xs={6}>
         <StyledText variant="h5">

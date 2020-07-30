@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ArrowBack } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
+import { Bar } from 'react-chartjs-2';
 import InfoPanel from './InfoPanel';
 
 const HeaderContainer = styled(Grid)`
@@ -58,6 +59,24 @@ const InventoryDetails = (props) => {
     history.goBack();
   }, [history]);
 
+  const getChartData = useCallback((usage) => {
+    if (usage) {
+      const labels = Object.keys(usage);
+      const data = Object.keys(usage).map((key) => usage[key]);
+      return {
+        labels,
+        datasets: [
+          {
+            label: 'Inventory',
+            backgroundColor: '#56CCF2',
+            data,
+          },
+        ],
+      };
+    }
+    return undefined;
+  }, []);
+
   return useMemo(() => {
     const {
       name,
@@ -67,6 +86,7 @@ const InventoryDetails = (props) => {
       consumption,
       daysLeft,
       outgoingReqs,
+      weeklyUsage,
     } = selectedInventory || {};
 
     const hasValidDaysLeft = daysLeft !== undefined && daysLeft !== '∞' && !Number.isNaN(daysLeft);
@@ -78,6 +98,7 @@ const InventoryDetails = (props) => {
     const burnRate = consumption ? Math.round(consumption) : '0';
     const daysLeftText = hasValidDaysLeft ? Math.round(daysLeft) : '∞';
     const outgoing = outgoingReqs || 0;
+    const chartData = getChartData(weeklyUsage);
 
     return (
       <MainContainer>
@@ -112,13 +133,29 @@ const InventoryDetails = (props) => {
               <DescriptionText variant="body1">{descText}</DescriptionText>
             </InfoPanel>
             <InfoPanel weight={6}>
-              <DescriptionText>Weekly usage</DescriptionText>
+              <div style={{ padding: 20, width: '100%', height: '100%' }}>
+                {chartData ? (
+                  <Bar
+                    data={chartData}
+                    width={20}
+                    height={20}
+                    options={{
+                      maintainAspectRatio: false,
+                      title: {
+                        display: true,
+                        text: 'Weekly usage',
+                      },
+                    }}
+                  />
+                )
+                  : <DescriptionText variant="body1">No data</DescriptionText>}
+              </div>
             </InfoPanel>
           </Grid>
         </BodyContainer>
       </MainContainer>
     );
-  }, [selectedInventory, goBack]);
+  }, [selectedInventory, goBack, getChartData]);
 };
 
 export default InventoryDetails;
