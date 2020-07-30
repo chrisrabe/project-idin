@@ -31,6 +31,10 @@ const setInventoryRates = (inv, transactions, requests, hasPrediction) => {
 		if (removedTrans.length === 0) {
 			inv.consumption = 0;
 			inv.daysLeft = '∞';
+			inv.weeklyUsage = DAY_OF_WEEK.reduce((obj, value) => {
+				obj[value] = 0;
+				return obj;
+			}, {});
 		} else {
 			let earliestRecord = undefined;
 			// add to date buckets
