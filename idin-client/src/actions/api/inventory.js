@@ -1,3 +1,5 @@
+import axios from 'axios';
+import config from 'config';
 import {
   requestInventory,
   setInventory,
@@ -6,8 +8,6 @@ import {
   requestUpdateInventory,
   requestCreateInventory,
 } from 'actions/inventory.actions';
-import axios from 'axios';
-import config from 'config';
 
 const { server } = config;
 const baseRoute = `${server.baseUrl}${server.api.v1}${server.route.inventory}`;
