@@ -63,6 +63,7 @@ const NavLogo = (props) => {
             size="small"
             color="primary"
             isSelected={pathname === '/about'}
+            onClick={() => history.push('/about')}
           >
             <Help fontSize="small" />
           </StyledIconButton>
