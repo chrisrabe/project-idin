@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Typography from '@material-ui/core/Typography';
 
 const NewInvForm = (props) => {
   const { onClose, onSubmit, items } = props;
@@ -23,6 +24,9 @@ const NewInvForm = (props) => {
   return (
     <>
       <DialogContent>
+        <Typography color="secondary" variant="body2">
+          Demo does not support adding custom items
+        </Typography>
         <Autocomplete
           getOptionLabel={(option) => option.itemName}
           onChange={(e, value) => setItem(value)}
