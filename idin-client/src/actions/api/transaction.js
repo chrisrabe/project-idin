@@ -3,7 +3,7 @@ import config from 'config';
 import {
   requestTransactionList,
   setTransactionList,
-} from '../transaction.action';
+} from 'actions/transaction.actions';
 
 const { server } = config;
 const baseRoute = `${server.baseUrl}${server.api.v1}${server.route.transaction}`;
