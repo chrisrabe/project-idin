@@ -18,3 +18,9 @@ export const transStatusDisplay = {
 
 export const transStatusList = Object.keys(transStatusDisplay)
   .map((key) => ({ key, value: transStatusDisplay[key] }));
+
+export const reqStatus = {
+  pending: 'PENDING',
+  confirmed: 'CONFIRMED',
+  declined: 'DECLINED',
+};
