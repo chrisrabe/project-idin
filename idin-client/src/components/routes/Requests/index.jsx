@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo} from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import RequestList from 'components/routes/Requests/RequestList';
-import { reqStatus } from "utils/constants";
+import { reqStatus } from 'utils/constants';
 
 const MainContainer = styled.div`
   padding: 20px;
@@ -51,7 +51,6 @@ const Requests = (props) => {
       </MainContainer>
     );
   }, [requests, orgId]);
-
 };
 
 export default Requests;
