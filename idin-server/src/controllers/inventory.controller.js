@@ -3,6 +3,7 @@ const validation = require('../_util/api.validation');
 const errorType = require('../_util/constants/error.types');
 const AppError = require('../_util/api.error');
 const { TRANSACTION_TYPE, TRANSACTION_STATUS, ADDITIONAL_FIELDS } = require('../_util/constants');
+const { setInventoryRates } = require('../_util/prediction');
 
 const transactionController = require('./transaction.controller');
 
@@ -24,7 +25,7 @@ const recordTransaction = async (db, itemId, oldAmount, newAmount, unitType, use
 	);
 };
 
-const setLinkedFields = (inv, items) => {
+const setLinkedFields = (inv, items, transactions = [], requests = [], hasPrediction = false) => {
 	let item = items.filter(item => item.id === inv.itemId);
 	if (item.length > 0) {
 		item = item[0];
@@ -34,7 +35,7 @@ const setLinkedFields = (inv, items) => {
 		inv.name = 'Unknown Item';
 		inv.description = 'No description';
 	}
-	inv.inTransit = 0; // TODO check transactions
+	setInventoryRates(inv, transactions, requests, hasPrediction);
 };
 
 exports.getInventoryList = async (orgId) => {
@@ -42,25 +43,29 @@ exports.getInventoryList = async (orgId) => {
 	const queryRes = await getDataWithAdditionalFields(
 		db,
 		[{owner: orgId}],
-		[ADDITIONAL_FIELDS.item]
+		[ADDITIONAL_FIELDS.item, ADDITIONAL_FIELDS.transactions, ADDITIONAL_FIELDS.requests]
 	);
 	const inventory = queryRes.data;
 	for (const inv of inventory) {
-		setLinkedFields(inv, queryRes.items);
+		setLinkedFields(inv, queryRes.items, queryRes.transactions, queryRes.requests);
 	}
 	return inventory;
 };
 
 exports.getInventoryDetails = async (id) => {
 	const db = await getDatabaseInstance();
-	const inventory = await getObjectById(db, id);
-	if (inventory) {
-		const item = await getObjectById(db, inventory.itemId);
-		inventory.name = item ? item.itemName : 'Unknown Item';
-		inventory.description = item ? item.description : 'No description';
-		inventory.inTransit = 0; // TODO check transactions
+	const query = [{id}];
+	const additionalFields = [
+		ADDITIONAL_FIELDS.item,
+		ADDITIONAL_FIELDS.transactions,
+		ADDITIONAL_FIELDS.requests
+	];
+	const queryRes = await getDataWithAdditionalFields(db, query, additionalFields);
+	const inventory = queryRes.data;
+	if (inventory.length > 0) {
+		setLinkedFields(inventory[0], queryRes.items, queryRes.transactions, queryRes.requests, true);
 	}
-	return inventory;
+	return inventory[0];
 };
 
 exports.createInventory = async (itemId, amount, unitType, owner, userId) => {

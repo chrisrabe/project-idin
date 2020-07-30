@@ -25,6 +25,7 @@ async function getObjectByQuery(db, query) {
 // Work around for the Lite API rate
 async function getDataWithAdditionalFields(db, originalQuery, additional = []) {
 	const fieldsToRetrieve = [...originalQuery, ];
+	const retrieved = {};
 	for (const key of additional) {
 		if (key === ADDITIONAL_FIELDS.user) {
 			fieldsToRetrieve.push({
@@ -32,18 +33,42 @@ async function getDataWithAdditionalFields(db, originalQuery, additional = []) {
 					'$regex': '.*'
 				}
 			});
+			retrieved.user = true;
 		} else if (key === ADDITIONAL_FIELDS.item) {
 			fieldsToRetrieve.push({
 				itemName: {
 					'$regex': '.*'
 				}
 			});
+			retrieved.item = true;
 		} else if (key === ADDITIONAL_FIELDS.organisation) {
 			fieldsToRetrieve.push({
 				orgName: {
 					'$regex': '.*'
 				}
 			});
+			retrieved.organisation = true;
+		} else if (key === ADDITIONAL_FIELDS.transactions) {
+			fieldsToRetrieve.push({
+				origin: {
+					'$regex': '.*'
+				},
+			});
+			retrieved.transactions = true;
+		} else if (key === ADDITIONAL_FIELDS.inventory) {
+			fieldsToRetrieve.push({
+				owner: {
+					'$regex': '.*'
+				}
+			});
+			retrieved.inventory = true;
+		} else if (key === ADDITIONAL_FIELDS.requests) {
+			fieldsToRetrieve.push({
+				reqOrigin: {
+					'$regex': '.*'
+				},
+			});
+			retrieved.requests = true;
 		}
 	}
 	const query = {
@@ -52,16 +77,25 @@ async function getDataWithAdditionalFields(db, originalQuery, additional = []) {
 	const users = [];
 	const organisations = [];
 	const items = [];
+	const transactions = [];
+	const inventory = [];
+	const requests = [];
 	const reqData = [];
 	const { data } = await db.find(query);
 	const result = JSON.parse(data);
 	for (const res of result) {
-		if (res.email !== undefined) {
+		if (retrieved.user && res.email !== undefined) {
 			users.push(res);
-		} else if (res.orgName !== undefined) {
+		} else if (retrieved.organisation && res.orgName !== undefined) {
 			organisations.push(res);
-		} else if (res.itemName !== undefined) {
+		} else if (retrieved.item && res.itemName !== undefined) {
 			items.push(res);
+		} else if (retrieved.transactions && res.origin !== undefined) {
+			transactions.push(res);
+		} else if (retrieved.inventory && res.owner !== undefined) {
+			inventory.push(res);
+		} else if (retrieved.requests && res.reqOrigin !== undefined) {
+			requests.push(res);
 		} else {
 			reqData.push(res);
 		}
@@ -70,7 +104,10 @@ async function getDataWithAdditionalFields(db, originalQuery, additional = []) {
 		data: reqData,
 		users,
 		organisations,
-		items
+		items,
+		transactions,
+		inventory,
+		requests
 	};
 }
 

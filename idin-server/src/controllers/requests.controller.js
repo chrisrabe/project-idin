@@ -83,14 +83,14 @@ exports.updateRequest = async (id, message, status, transactionId, responderId) 
 
 	// if status is confirmed, must have a transaction id
 	if (status === REQUEST_STATUS.confirmed && !transactionId) {
-		throw new AppError(errorType.badRequest.unknown, "Confirmed requests does not have a transaction");
+		throw new AppError(errorType.badRequest.unknown, 'Confirmed requests does not have a transaction');
 	}
 
 	// transaction id must be valid
 	if (status === REQUEST_STATUS.confirmed && transactionId) {
 		const transaction = await getObjectById(db, transactionId);
 		if (!transaction) {
-			throw new AppError(errorType.badRequest.unknown, "Invalid transaction");
+			throw new AppError(errorType.badRequest.unknown, 'Invalid transaction');
 		}
 	}
 
@@ -99,15 +99,15 @@ exports.updateRequest = async (id, message, status, transactionId, responderId) 
 	const user = await getObjectById(db,responderId);
 
 	if (!request) {
-		throw new AppError(errorType.badRequest.unknown, "Invalid request");
+		throw new AppError(errorType.badRequest.unknown, 'Invalid request');
 	}
 
 	if (request.reqDestination !== user.organisationId) {
-		throw new AppError(errorType.badRequest.unknown, "Message is not intended for responder");
+		throw new AppError(errorType.badRequest.unknown, 'Message is not intended for responder');
 	}
 
 	if (request.status !== REQUEST_STATUS.pending) {
-		throw new AppError(errorType.badRequest.unknown, "Request already resolved");
+		throw new AppError(errorType.badRequest.unknown, 'Request already resolved');
 	}
 
 	if (message) {
