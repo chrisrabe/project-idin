@@ -6,7 +6,15 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
+import styled from 'styled-components';
 import { ButtonContainer } from '../../styles';
+
+const DemoTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const SignInPanel = (props) => {
   const { value, users, homeActions } = props;
@@ -22,6 +30,8 @@ const SignInPanel = (props) => {
       history.push('/inventory');
     }
   }, [username, users, homeActions, history]);
+
+  const demoMessage = 'Log in as "chris" to view demo account';
 
   return (
     <TabPanel value={value} index={0} dir={theme.direction}>
@@ -39,6 +49,9 @@ const SignInPanel = (props) => {
           </Button>
         </ButtonContainer>
       </Grid>
+      <DemoTextContainer>
+        <Typography variant="body2">{demoMessage}</Typography>
+      </DemoTextContainer>
     </TabPanel>
   );
 };

@@ -15,20 +15,15 @@ const StyledIcon = styled(({ isSelected, ...rest }) => <FontAwesomeIcon {...rest
 
 const NavItem = (props) => {
   const {
-    route, label, icon, onClick,
+    route, label, icon,
   } = props;
   const { pathname } = useLocation();
   const history = useHistory();
   const isSelected = pathname.includes(route) && route !== '/';
 
   const handleClick = useCallback(() => {
-    if (!onClick) {
-      history.push(route);
-    } else {
-      onClick();
-      history.push(route);
-    }
-  }, [onClick, route, history]);
+    history.push(route);
+  }, [route, history]);
 
   return (
     <ListItem button onClick={handleClick}>
@@ -48,7 +43,6 @@ NavItem.propTypes = {
   route: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.any.isRequired,
-  onClick: PropTypes.func,
 };
 
 export default NavItem;

@@ -31,6 +31,10 @@ const setInventoryRates = (inv, transactions, requests, hasPrediction) => {
 		if (removedTrans.length === 0) {
 			inv.consumption = 0;
 			inv.daysLeft = '∞';
+			inv.weeklyUsage = DAY_OF_WEEK.reduce((obj, value) => {
+				obj[value] = 0;
+				return obj;
+			}, {});
 		} else {
 			let earliestRecord = undefined;
 			// add to date buckets
@@ -41,7 +45,7 @@ const setInventoryRates = (inv, transactions, requests, hasPrediction) => {
 			}, {});
 			for (const trans of removedTrans) {
 				const transDate = moment(trans.createdAt);
-				const day = DAY_OF_WEEK[transDate.weekday()];
+				const day = DAY_OF_WEEK[transDate.weekday() - 1];
 				if (earliestRecord === undefined || transDate.isBefore(earliestRecord, 'day')) {
 					earliestRecord = transDate;
 				}

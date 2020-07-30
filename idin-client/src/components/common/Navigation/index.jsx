@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { List } from '@material-ui/core';
 import {
-  faBoxes, faClipboard, faEnvelopeOpen, faUser, faPowerOff,
+  faBoxes,
+  faClipboard,
+  faEnvelopeOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import NavLogo from './NavLogo';
 import NavItem from './NavItem';
@@ -24,13 +26,11 @@ const Navigation = (props) => {
 
   return (
     <MainContainer>
-      <NavLogo />
+      <NavLogo onSignOut={handleSignOut} />
       <List component="nav">
         <NavItem route="/inventory" label="Inventory" icon={faBoxes} />
         <NavItem route="/transaction" label="Transactions" icon={faClipboard} />
         <NavItem route="/request" label="Requests" icon={faEnvelopeOpen} />
-        <NavItem route="/profile" label="Profile" icon={faUser} />
-        <NavItem route="/" label="Sign out" icon={faPowerOff} onClick={handleSignOut} />
       </List>
     </MainContainer>
   );

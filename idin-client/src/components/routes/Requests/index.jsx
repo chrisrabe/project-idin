@@ -41,11 +41,11 @@ const Requests = (props) => {
           <HeaderText variant="h4">Requests</HeaderText>
         </HeaderContainer>
         <HeaderText variant="h5">
-          {`Inbound Requests (${inboundReqs.length})`}
+          {`Pending Inbound Requests (${inboundReqs.length})`}
         </HeaderText>
         <RequestList requests={inboundReqs} orgId={orgId} />
         <HeaderText variant="h5">
-          {`Outbound Requests (${outboundReqs.length})`}
+          {`Pending Outbound Requests (${outboundReqs.length})`}
         </HeaderText>
         <RequestList requests={outboundReqs} orgId={orgId} />
       </MainContainer>

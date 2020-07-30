@@ -10,6 +10,7 @@ import {
   Requests,
   Transactions,
   InventoryDetails,
+  About,
 } from '../../routes';
 import {
   MainContainer,
@@ -28,6 +29,7 @@ const Router = () => {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/request" component={Requests} />
           <Route exact path="/transaction" component={Transactions} />
+          <Route exact path="/about" component={About} />
           <Redirect to="/" />
         </Switch>
       </MainContainer>
