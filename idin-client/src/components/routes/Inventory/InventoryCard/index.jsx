@@ -10,6 +10,7 @@ import LabeledIcon from 'components/ui/LabeledIcon';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 import UpdateForm from '../UpdateForm';
+import { abbreviateNumber } from 'utils/helper';
 
 const MainContainer = styled(Grid)`
   margin: 10px;
@@ -78,7 +79,7 @@ const InventoryCard = (props) => {
             </Tooltip>
             <Tooltip title="Stocks in hand" placement="top" arrow>
               <div style={{ cursor: 'pointer' }}>
-                <LabeledIcon icon={faBoxes} label={item.amount} />
+                <LabeledIcon icon={faBoxes} label={abbreviateNumber(item.amount)} />
               </div>
             </Tooltip>
           </Grid>

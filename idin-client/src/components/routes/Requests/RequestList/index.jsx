@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import styled from 'styled-components';
-import Request from './Request';
+import Request from './Request/container';
 
 const ListContainer = styled(List)`
   height: 300px;

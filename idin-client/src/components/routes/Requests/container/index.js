@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as reqAction from 'actions/api/requests';
+import * as invActions from 'actions/api/inventory';
 import Requests from '../index';
 
 function mapStateToProps(state) {
@@ -14,6 +15,7 @@ function mapStateToProps(state) {
 function mapStateToDispatch(dispatch) {
   return {
     reqAction: bindActionCreators(reqAction, dispatch),
+    invActions: bindActionCreators(invActions, dispatch),
   };
 }
 

@@ -24,6 +24,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
-    'react/require-default-props': 'off'
+    'react/require-default-props': 'off',
+    'no-restricted-properties': 'off'
   },
 };
