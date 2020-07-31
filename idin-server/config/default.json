@@ -1,6 +1,7 @@
 {
   "app": {
-    "name": "idin-server"
+    "name": "idin-server",
+    "minDaysLeft": 30
   },
   "database": {
     "dbName": "idin_db",
