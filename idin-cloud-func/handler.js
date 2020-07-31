@@ -1,9 +1,12 @@
-'use strict';
+const config = require('config');
+const axios = require('axios');
+const baseUrl = config.has('server') ? config.get('server').url : undefined;
 
-function hello(params) {
-  const name = params.name || 'World';
-  console.log('log', { payload: `Hello, ${name}` });
-  return { payload: `Hello, ${name}!` };
+async function predict() {
+  const predEndpoint = `${baseUrl}/api/v1/prediction`;
+  const { data } = await axios.get(predEndpoint);
+  console.log(data);
+  return data;
 }
 
-exports.hello = hello;
+exports.predict = predict;

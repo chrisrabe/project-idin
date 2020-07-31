@@ -6,7 +6,7 @@ const controller = require('../../controllers/prediction.controller');
 router.get('/', asyncHandler(async (req, res) => {
     try {
         const { data } = await controller.getPrediction();
-        res.created(data);
+        return res.created(data);
     } catch (e) {
         res.handleError(e, req);
     }
