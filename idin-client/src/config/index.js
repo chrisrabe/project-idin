@@ -1,6 +1,6 @@
 const config = {
   server: {
-    baseUrl: 'https://idin-server.mybluemix.net',
+    baseUrl: 'https://<my-server>.mybluemix.net',
     api: {
       v1: '/api/v1',
     },
