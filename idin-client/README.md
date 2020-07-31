@@ -22,7 +22,7 @@ npm install
 
 ## Deploying to Heroku
 
-###Prerequisites
+### Prerequisites
 - [Heroku Account](https://signup.heroku.com/)
 - [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 - [Git CLI](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
