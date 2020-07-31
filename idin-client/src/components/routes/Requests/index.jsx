@@ -27,7 +27,7 @@ const Requests = (props) => {
       reqAction.getRequestList(orgId);
       invActions.getInventoryList(orgId);
     }
-  }, [reqAction, orgId]);
+  }, [reqAction, orgId, invActions]);
   return useMemo(() => {
     const inboundReqs = [];
     const outboundReqs = [];

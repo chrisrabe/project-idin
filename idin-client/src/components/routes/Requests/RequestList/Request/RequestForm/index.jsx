@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 import LabeledIcon from 'components/ui/LabeledIcon';
 import styled from 'styled-components';
 import { abbreviateNumber } from 'utils/helper';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const HeadingContainer = styled.div`
   display: flex;
@@ -28,19 +30,38 @@ const RequestForm = (props) => {
   } = props;
 
   const [donationAmount, setDonationAmount] = useState(0);
+  const [isPaymentRequired, setIsPaymentRequired] = useState(false);
+  const [hasInvalidAmount, setHasInvalidAmount] = useState(false);
 
   let item = inventory.filter((inv) => inv.itemId === request.itemId);
   item = item.length === 0 ? undefined : item[0];
 
   const handleConfirm = useCallback(() => {
-    onConfirm();
-    onClose();
-  }, [onConfirm, onClose]);
+    if (!hasInvalidAmount) {
+      onConfirm(donationAmount, isPaymentRequired);
+      onClose();
+    }
+  }, [
+    onConfirm,
+    onClose,
+    hasInvalidAmount,
+    donationAmount,
+    isPaymentRequired,
+  ]);
 
   const handleDecline = useCallback(() => {
     onDecline();
     onClose();
   }, [onDecline, onClose]);
+
+  const setAmount = useCallback((amount) => {
+    if (item && (amount < item.amount)) {
+      setHasInvalidAmount(false);
+      setDonationAmount(amount);
+    } else {
+      setHasInvalidAmount(true);
+    }
+  }, [setDonationAmount, item, setHasInvalidAmount]);
 
   return (
     <>
@@ -65,7 +86,23 @@ const RequestForm = (props) => {
           label="Amount"
           variant="outlined"
           fullWidth
-          onChange={(e) => setDonationAmount(e.target.value)}
+          onChange={(e) => setAmount(e.target.value)}
+        />
+        { hasInvalidAmount
+          && (
+          <Typography variant="body2" color="secondary">
+            Has invalid amount or unknown item
+          </Typography>
+          )}
+        <FormControlLabel
+          control={(
+            <Checkbox
+              color="primary"
+              checked={isPaymentRequired}
+              onChange={(e) => setIsPaymentRequired(e.target.checked)}
+            />
+          )}
+          label="Require payment?"
         />
       </DialogContent>
       <DialogActions>

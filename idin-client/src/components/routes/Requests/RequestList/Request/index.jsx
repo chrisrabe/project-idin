@@ -31,18 +31,18 @@ const Request = (props) => {
   } = props;
 
   const declineRequest = useCallback(() => {
+    reqAction.sendDeclineRequest(request.id, userId, orgId);
+  }, [reqAction, request, userId, orgId]);
 
-  }, [reqAction]);
-
-  const confirmRequest = useCallback(() => {
-
-  }, [reqAction]);
+  const confirmRequest = useCallback((amount, isPaymentRequired) => {
+    reqAction.sendConfirmRequest(request, userId, orgId, request.itemId, amount, isPaymentRequired);
+  }, [reqAction, request, userId, orgId]);
 
   const onActionButton = useCallback(() => {
     const body = (
       <RequestForm
-        onConfirm={declineRequest}
-        onDecline={confirmRequest}
+        onConfirm={confirmRequest}
+        onDecline={declineRequest}
         onClose={appAction.closeDialog}
         request={request}
         inventory={inventory}
@@ -56,7 +56,7 @@ const Request = (props) => {
     confirmRequest,
     declineRequest,
     request,
-    inventory
+    inventory,
   ]);
 
   return useMemo(() => {
@@ -90,7 +90,7 @@ const Request = (props) => {
         </ListItem>
       </MainContainer>
     );
-  }, [request, isInbound]);
+  }, [request, isInbound, onActionButton]);
 };
 
 Request.propTypes = {
