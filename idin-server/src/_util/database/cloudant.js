@@ -149,6 +149,40 @@ class CloudantDatabase {
 		});
 	}
 
+	/**
+	 * Bulk creates the data specified
+	 * @param data
+	 */
+	static bulkCreate (data) {
+		return new Promise((resolve, reject) => {
+			if (Array.isArray(data)) {
+				const createdAt = moment().toISOString();
+				const documents = data.map(d => {
+					const id = uuidv4();
+					return {
+						...d,
+						id,
+						_id: id,
+						createdAt,
+						lastUpdated: createdAt
+					};
+				});
+				const reqData = {
+					docs: documents
+				};
+				CloudantDatabase.database.bulk(reqData).then((result) => {
+					resolve({ data: result, statusCode: 201 });
+				}).catch((err) => {
+					logger.error(`Error occured: ${err.message} bulkCreate()`);
+					reject(err);
+				})
+			} else {
+				logger.error('Data is not array. bulkCreate()');
+				reject('Data is not array. bulkCreate()');
+			}
+		});
+	}
+
 	static update (id, newData) {
 		return new Promise(((resolve, reject) => {
 			CloudantDatabase.database.get(id, (err, document) => {

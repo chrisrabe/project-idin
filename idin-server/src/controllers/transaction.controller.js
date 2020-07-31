@@ -26,7 +26,7 @@ const setLinkedValues = (transaction, users, orgs, items) => {
 	transaction.originSupportEmail = origin ? origin.supportEmail : 'N/A';
 	transaction.destCompany = destination ? destination.orgName : 'Unknown company';
 	transaction.destSupportEmail = destination ? destination.supportEmail : 'N/A';
-}
+};
 
 exports.getTransactionList = async (orgId) => {
 	const db = await getDatabaseInstance();
@@ -49,7 +49,7 @@ exports.getTransactionDetails = async (id) => {
 	for (const transaction of data) {
 		setLinkedValues(transaction, users, organisations, items);
 	}
-	return data;
+	return data.length > 0 ? data[0] : undefined;
 };
 
 exports.createTransaction = async (itemId, amount, unitType, userId, origin, destination, type, status, isPaymentRequired = false, message) => {
@@ -75,15 +75,7 @@ exports.createTransaction = async (itemId, amount, unitType, userId, origin, des
 	const inventory = await getInventory(db, itemId, origin);
 	const curUser = await getObjectById(db, userId);
 
-	if (type === TRANSACTION_TYPE.remove) {
-		if (inventory.length === 0) {
-			throw new AppError(errorType.badRequest.unknown, 'Inventory does not exist in organisation');
-		}
-		const predictedAmount = inventory[0].amount - amount;
-		if (predictedAmount < 0) {
-			throw new AppError(errorType.badRequest.unknown, 'Insufficient inventory');
-		}
-	} else if (curUser.organisationId === origin && (type === TRANSACTION_TYPE.donate || type === TRANSACTION_TYPE.purchase)) {
+	if (curUser.organisationId === origin && (type === TRANSACTION_TYPE.donate || type === TRANSACTION_TYPE.purchase)) {
 		if (inventory.length === 0) {
 			throw new AppError(errorType.badRequest.unknown, 'Inventory does not exist in organisation');
 		}

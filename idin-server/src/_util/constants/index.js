@@ -14,7 +14,8 @@ const transactionStatus = {
 	pendingDelivery: 'PENDING_DELIVERY',
 	inTransit: 'IN_TRANSIT',
 	completed: 'COMPLETED',
-	canceled: 'CANCELED'
+	canceled: 'CANCELED',
+	paid: 'PAID'
 };
 
 const userRoles = {
@@ -25,8 +26,11 @@ const userRoles = {
 const additionalFields = {
 	user: 'user',
 	item: 'item',
-	organisation: 'organisation'
-}
+	organisation: 'organisation',
+	transactions: 'transactions',
+	inventory: 'inventory',
+	requests: 'requests',
+};
 
 const items = [
 	{
@@ -82,11 +86,35 @@ const items = [
 	}
 ];
 
+const requestType = {
+	auto: 'AUTOMATED',
+	manual: 'MANUAL'
+};
+
+const requestStatus = {
+	pending: 'PENDING',
+	confirmed: 'CONFIRMED',
+	declined: 'DECLINED'
+};
+
+const dayOfWeek = [
+	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'Thursday',
+	'Friday',
+	'Saturday',
+	'Sunday'
+];
+
 module.exports = {
 	DEFAULT_APP_NAME: defaults.appName,
 	ITEMS: items,
 	TRANSACTION_TYPE: transactionType,
 	TRANSACTION_STATUS: transactionStatus,
 	USER_ROLES: userRoles,
-	ADDITIONAL_FIELDS: additionalFields
+	ADDITIONAL_FIELDS: additionalFields,
+	REQUEST_TYPE: requestType,
+	REQUEST_STATUS: requestStatus,
+	DAY_OF_WEEK: dayOfWeek
 };
