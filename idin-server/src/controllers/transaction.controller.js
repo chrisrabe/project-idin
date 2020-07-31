@@ -129,8 +129,9 @@ exports.updateTransaction = async (transId, status, userId, message) => {
 			};
 			await db.create(newData);
 		} else {
-			const newDestInv = { ...destInventory[0], amount: destInventory.amount + transaction.amount };
-			await db.update(destInventory._id, newDestInv);
+			const item = destInventory[0];
+			const newDestInv = { ...item[0], amount: item.amount + transaction.amount };
+			await db.update(item._id, newDestInv);
 		}
 	} else if (status === TRANSACTION_STATUS.inTransit) {
 		if (curUser.organisationId !== transaction.origin) {
