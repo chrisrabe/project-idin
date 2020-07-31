@@ -16,6 +16,13 @@ export const transStatusDisplay = {
   PAID: 'Paid',
 };
 
+export const transactionType = {
+  add: 'ADD',
+  remove: 'REMOVE',
+  donate: 'DONATE',
+  purchase: 'PURCHASE',
+};
+
 export const transStatusList = Object.keys(transStatusDisplay)
   .map((key) => ({ key, value: transStatusDisplay[key] }));
 
@@ -23,4 +30,8 @@ export const reqStatus = {
   pending: 'PENDING',
   confirmed: 'CONFIRMED',
   declined: 'DECLINED',
+};
+
+export const unitTypes = {
+  boxes: 'BOXES',
 };

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
   ListItem,
@@ -8,6 +8,7 @@ import {
   Button, Typography,
 } from '@material-ui/core';
 import styled from 'styled-components';
+import RequestForm from './RequestForm';
 
 const MainContainer = styled(Paper)`
   margin: 10px;
@@ -19,7 +20,45 @@ const Container = styled.div`
 `;
 
 const Request = (props) => {
-  const { request, isInbound } = props;
+  const {
+    userId,
+    orgId,
+    request,
+    isInbound,
+    appAction,
+    reqAction,
+    inventory,
+  } = props;
+
+  const declineRequest = useCallback(() => {
+
+  }, [reqAction]);
+
+  const confirmRequest = useCallback(() => {
+
+  }, [reqAction]);
+
+  const onActionButton = useCallback(() => {
+    const body = (
+      <RequestForm
+        onConfirm={declineRequest}
+        onDecline={confirmRequest}
+        onClose={appAction.closeDialog}
+        request={request}
+        inventory={inventory}
+      />
+    );
+    const title = isInbound ? 'Respond to request' : 'Request details';
+    appAction.openDialog({ title, body });
+  }, [
+    appAction,
+    isInbound,
+    confirmRequest,
+    declineRequest,
+    request,
+    inventory
+  ]);
+
   return useMemo(() => {
     const buttonText = isInbound ? 'Respond' : 'View';
     const user = isInbound ? `From: ${request.originCompany}` : `To: ${request.destCompany}`;
@@ -42,7 +81,9 @@ const Request = (props) => {
             </Grid>
             <Grid item container xs={2} justify="flex-end">
               <Container>
-                <Button variant="contained" color="primary">{buttonText}</Button>
+                <Button variant="contained" color="primary" onClick={onActionButton}>
+                  {buttonText}
+                </Button>
               </Container>
             </Grid>
           </Grid>

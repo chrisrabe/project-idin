@@ -18,11 +18,14 @@ const HeaderText = styled(Typography)`
 `;
 
 const Requests = (props) => {
-  const { orgId, reqAction, requests } = props;
+  const {
+    orgId, reqAction, invActions, requests,
+  } = props;
 
   useEffect(() => {
     if (orgId) {
       reqAction.getRequestList(orgId);
+      invActions.getInventoryList(orgId);
     }
   }, [reqAction, orgId]);
   return useMemo(() => {

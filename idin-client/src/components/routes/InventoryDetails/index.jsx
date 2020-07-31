@@ -10,6 +10,7 @@ import {
 import { ArrowBack } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import { Bar } from 'react-chartjs-2';
+import { abbreviateNumber } from 'utils/helper';
 import InfoPanel from './InfoPanel';
 
 const HeaderContainer = styled(Grid)`
@@ -93,7 +94,7 @@ const InventoryDetails = (props) => {
 
     const title = name || 'Inventory Details';
     const inTransitText = inTransit || 0;
-    const amountText = amount || 0;
+    const amountText = amount ? abbreviateNumber(amount) : 0;
     const descText = description || 'No description';
     const burnRate = consumption ? Math.round(consumption) : '0';
     const daysLeftText = hasValidDaysLeft ? Math.round(daysLeft) : '∞';
