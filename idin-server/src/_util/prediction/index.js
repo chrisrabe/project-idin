@@ -5,21 +5,15 @@ const setInventoryRates = (inv, transactions, requests, hasPrediction) => {
 	// filter transactions
 	const removedTrans = [];
 	const inTransitTrans = [];
+	const outboundRequests = [];
 	for (const trans of transactions) {
 		if (trans.itemId === inv.itemId) {
 			if (trans.origin === inv.owner && trans.type === TRANSACTION_TYPE.remove) {
 				removedTrans.push(trans);
 			} else if (trans.destination === inv.owner && trans.status === TRANSACTION_STATUS.inTransit) {
 				inTransitTrans.push(trans);
-			}
-		}
-	}
-	// filter requests
-	const outboundRequests = [];
-	for (const req of requests) {
-		if (req.itemId === inv.itemId) {
-			if (req.reqOrigin === inv.owner) {
-				outboundRequests.push(req);
+			} else if (trans.origin === inv.owner && trans.status === TRANSACTION_STATUS.inTransit) {
+				outboundRequests.push(trans);
 			}
 		}
 	}
