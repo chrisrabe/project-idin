@@ -84,11 +84,11 @@ const hasPendingRequest = (existingReqs, dest, itemId) => {
 	if (!existingReqs) {
 		return false;
 	}
-	return existingReqs.indexOf(req => (
+	return existingReqs.filter(req => (
 		req.reqDestination === dest
 		&& req.itemId === itemId
 		&& req.status === REQUEST_STATUS.pending
-	)) >= 0; // returns -1 if not existing
+	)).length > 0;
 };
 
 const getInventoryUsageAnalysis = (orgs, inventory, requests, transactions) => {
