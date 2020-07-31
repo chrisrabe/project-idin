@@ -4,7 +4,7 @@ import {
   DialogActions,
   Button,
   TextField,
-  Typography,
+  Typography, Tooltip,
 } from '@material-ui/core';
 import { faBoxes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
@@ -67,7 +67,11 @@ const RequestForm = (props) => {
     <>
       <DialogContent>
         <HeadingContainer>
-          <LabeledIcon icon={faBoxes} label={(item && abbreviateNumber(item.amount)) || 0} />
+          <Tooltip title="Stock in hand" placement="top">
+            <div style={{ cursor: 'pointer' }}>
+              <LabeledIcon icon={faBoxes} label={(item && abbreviateNumber(item.amount)) || 0} />
+            </div>
+          </Tooltip>
           <Typography variant="h6">
             {(item && item.name) || 'Unknown Item'}
           </Typography>
@@ -75,7 +79,7 @@ const RequestForm = (props) => {
         <Typography variant="h6">
           Message
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body2">
           {request.message}
         </Typography>
         <Typography variant="h6">

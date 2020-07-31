@@ -31,7 +31,7 @@ const SignInPanel = (props) => {
     }
   }, [username, users, homeActions, history]);
 
-  const demoMessage = 'Log in as "chris" to view demo account';
+  const demoMessage = 'Log in as "chris" or "jacq" to view demo account';
 
   return (
     <TabPanel value={value} index={0} dir={theme.direction}>
