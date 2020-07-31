@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import RequestForm from './RequestForm';
+import DetailsForm from './DetailsForm';
 
 const MainContainer = styled(Paper)`
   margin: 10px;
@@ -39,13 +40,19 @@ const Request = (props) => {
   }, [reqAction, request, userId, orgId]);
 
   const onActionButton = useCallback(() => {
-    const body = (
+    const body = isInbound ? (
       <RequestForm
         onConfirm={confirmRequest}
         onDecline={declineRequest}
         onClose={appAction.closeDialog}
         request={request}
         inventory={inventory}
+      />
+    ) : (
+      <DetailsForm
+        request={request}
+        inventory={inventory}
+        onClose={appAction.closeDialog}
       />
     );
     const title = isInbound ? 'Respond to request' : 'Request details';
