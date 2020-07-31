@@ -1,6 +1,6 @@
 const request = require('request-promise');
 
-const server = "https://idin-server.mybluemix.net";
+const server = "https://<my-server>.mybluemix.net";
 
 async function main(params) {
     try {

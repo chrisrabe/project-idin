@@ -1,6 +1,10 @@
 # IDIN Cloud Function
 
-This folder containers the code you need to paste on your NodeJS cloud function action.
+This folder contains the code you need to paste on your NodeJS cloud function action.
+This feature is not supported locally.
+
+## Configuration
+Inside the `main.js` script, modify the `<my-server>` value with your deployed IBM Cloud App.
 
 ## Set up
 
