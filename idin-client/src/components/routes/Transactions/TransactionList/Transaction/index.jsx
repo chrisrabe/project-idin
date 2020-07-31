@@ -13,7 +13,9 @@ import moment from 'moment';
 import { transStatus, transStatusDisplay } from 'utils/constants';
 
 const Transaction = (props) => {
-  const { transaction, orgId } = props;
+  const {
+    transaction, orgId, userId, transAction,
+  } = props;
   const [open, setOpen] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const [statuses, setStatuses] = useState([]);
@@ -58,6 +60,11 @@ const Transaction = (props) => {
     }
   }, [transaction, orgId]);
 
+  const handleClick = useCallback((status) => {
+    const newStats = status.toUpperCase().replace(' ', '_');
+    transAction.updateTransaction(transaction.id, userId, newStats, orgId);
+  }, [transAction, transaction, userId, orgId]);
+
   useEffect(() => {
     // check if they can still update
     setCanEdit(transaction.status !== transStatus.completed
@@ -66,37 +73,42 @@ const Transaction = (props) => {
     setStatuses(getStatuses());
   }, [transaction, setCanEdit, getStatuses]);
 
-  return useMemo(() => {
-    return (
-      <>
-        <TableRow>
-          <TableCell>
-            <IconButton size="small" onClick={() => setOpen(!open)} disabled={statuses.length === 0 || !canEdit}>
-              { open ? <KeyboardArrowUp /> : <KeyboardArrowDown /> }
-            </IconButton>
-          </TableCell>
-          <TableCell>{moment(transaction.lastUpdated).format('LLL')}</TableCell>
-          <TableCell>{transaction.itemName}</TableCell>
-          <TableCell>{transaction.type}</TableCell>
-          <TableCell>{transaction.status}</TableCell>
-          <TableCell>{transaction.amount}</TableCell>
-          <TableCell>{transaction.originCompany}</TableCell>
-          <TableCell>{transaction.destCompany}</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box margin={1}>
-                {statuses.map((status) => (
-                  <Button key={status}>{status}</Button>
-                ))}
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </>
-    )
-  }, [transaction, statuses, open, setOpen, canEdit]);
+  return useMemo(() => (
+    <>
+      <TableRow>
+        <TableCell>
+          <IconButton size="small" onClick={() => setOpen(!open)} disabled={statuses.length === 0 || !canEdit}>
+            { open ? <KeyboardArrowUp /> : <KeyboardArrowDown /> }
+          </IconButton>
+        </TableCell>
+        <TableCell>{moment(transaction.lastUpdated).format('LLL')}</TableCell>
+        <TableCell>{transaction.itemName}</TableCell>
+        <TableCell>{transaction.type}</TableCell>
+        <TableCell>{transaction.status}</TableCell>
+        <TableCell>{transaction.amount}</TableCell>
+        <TableCell>{transaction.originCompany}</TableCell>
+        <TableCell>{transaction.destCompany}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={1}>
+              {statuses.map((status) => (
+                <Button key={status} onClick={() => handleClick(status)}>{status}</Button>
+              ))}
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  ), [
+    transaction,
+    statuses,
+    open,
+    setOpen,
+    canEdit,
+    handleClick,
+  ]);
 };
 
 Transaction.propTypes = {
