@@ -9,9 +9,8 @@ import TableHead from '@material-ui/core/TableHead';
 import Paper from '@material-ui/core/Paper';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
-import Transaction
-  from 'components/routes/Transactions/TransactionList/Transaction';
 import moment from 'moment';
+import Transaction from './Transaction/container';
 
 const MainContainer = styled(Paper)`
   width: 100%;
@@ -89,7 +88,7 @@ const TransactionList = (props) => {
     orgId,
     page,
     rowsPerPage,
-    transactions
+    transactions,
   ]);
 };
 
