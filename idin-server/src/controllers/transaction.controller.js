@@ -130,7 +130,8 @@ exports.updateTransaction = async (transId, status, userId, message) => {
 			await db.create(newData);
 		} else {
 			const item = destInventory[0];
-			const newDestInv = { ...item[0], amount: item.amount + transaction.amount };
+			const newAmount = parseInt(item.amount, 10) + parseInt(transaction.amount, 10);
+			const newDestInv = { ...item[0], amount: newAmount };
 			await db.update(item._id, newDestInv);
 		}
 	} else if (status === TRANSACTION_STATUS.inTransit) {
