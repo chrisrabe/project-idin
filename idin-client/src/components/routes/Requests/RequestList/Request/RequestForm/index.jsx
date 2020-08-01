@@ -55,7 +55,7 @@ const RequestForm = (props) => {
   }, [onDecline, onClose]);
 
   const setAmount = useCallback((amount) => {
-    if (item && (amount < item.amount)) {
+    if (item && (amount > item.amount)) {
       setHasInvalidAmount(false);
       setDonationAmount(amount);
     } else {
