@@ -5,7 +5,7 @@
   },
   "database": {
     "dbName": "idin_db",
-    "cloudantId": "<username>",
-    "cloudantApiToken": "<apiKey>"
+    "cloudantId": "6dde2927-d774-4e4e-87e4-6a8de1ead2e2-bluemix",
+    "cloudantApiToken": "9lDtt0k_dUF-01qSGfFRM9bSeklvXyJO1FQjhj2Y13a5"
   }
 }
