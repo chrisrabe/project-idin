@@ -165,15 +165,16 @@ const getInventoryUsageAnalysis = (orgs, inventory, requests, transactions) => {
 							const minDonation = inv.consumption;
 							// check if it will affect destination significantly (lower than minimum days threshold multiplied by 2)
 							const newDestAmount = item.amount - minDonation;
-							const minNewDestDaysLeft = Math.round(newDestAmount / item.consumption);
-							if (minNewDestDaysLeft >= (MIN_DAYS_LEFT * 2)) {
+							const maxNewDestDaysLeft = Math.round(newDestAmount / item.consumption);
+							if (maxNewDestDaysLeft >= (MIN_DAYS_LEFT * 2)) {
 								// destination has enough to donate, calculate max
 								// 1. calculate how much destination can keep to be above min threshold
 								const minDestInv = item.consumption * (MIN_DAYS_LEFT * 2);
 								// 2. calculate new amount for destination (max donation)
 								const maxDonation = item.amount - minDestInv;
 								// 3. calculate how this will affect days left for destination
-								const maxNewDestDaysLeft =  newDestAmount / item.consumption;
+								const maxNewDestAmount = item.amount - maxDonation;
+								const minNewDestDaysLeft =  Math.round(maxNewDestAmount / item.consumption);
 								// 4. calculate min and max change
 								const maxNewAmount = inv.amount + maxDonation;
 								const maxNewDaysLeft = Math.round(maxNewAmount / inv.consumption);
