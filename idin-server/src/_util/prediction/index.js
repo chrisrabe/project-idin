@@ -46,7 +46,7 @@ const setInventoryRates = (inv, transactions, requests, hasPrediction) => {
 			}, {});
 			for (const trans of removedTrans) {
 				const transDate = moment(trans.createdAt).startOf('day');
-				const day = DAY_OF_WEEK[transDate.weekday() - 1];
+				const day = DAY_OF_WEEK[transDate.weekday()];
 				if (earliestRecord === undefined || transDate.isBefore(earliestRecord, 'day')) {
 					earliestRecord = transDate;
 				}
