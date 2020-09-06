@@ -9,8 +9,8 @@ import styled from 'styled-components';
 import LabeledIcon from 'components/ui/LabeledIcon';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
-import UpdateForm from '../UpdateForm';
 import { abbreviateNumber } from 'utils/helper';
+import UpdateForm from '../UpdateForm';
 
 const MainContainer = styled(Grid)`
   margin: 10px;

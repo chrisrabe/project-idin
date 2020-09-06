@@ -1,7 +1,7 @@
 import {
   REQUEST_TRANSACTION_LIST,
   SET_TRANSACTION_LIST,
-  REQUEST_UPDATE_TRANSACTION
+  REQUEST_UPDATE_TRANSACTION,
 } from 'actions/action.types';
 
 export const requestTransactionList = () => ({
@@ -14,5 +14,5 @@ export const setTransactionList = (transactions) => ({
 });
 
 export const requestUpdateTransaction = () => ({
-  type: REQUEST_UPDATE_TRANSACTION
-})
+  type: REQUEST_UPDATE_TRANSACTION,
+});

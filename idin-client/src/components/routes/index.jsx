@@ -5,3 +5,4 @@ export { default as Profile } from './Profile/container';
 export { default as Landing } from './Landing';
 export { default as InventoryDetails } from './InventoryDetails/container';
 export { default as About } from './About';
+export { default as Unavailable } from './Unavailable';

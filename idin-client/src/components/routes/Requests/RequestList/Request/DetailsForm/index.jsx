@@ -4,7 +4,7 @@ import {
   DialogActions,
   Button,
   Typography,
-  Tooltip
+  Tooltip,
 } from '@material-ui/core';
 import { faBoxes } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';

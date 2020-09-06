@@ -34,7 +34,7 @@ const LabeledIcon = (props) => {
   } = props;
   return (
     <MainContainer>
-        <StyledIcon icon={icon} color={color} size={size || 'lg'} />
+      <StyledIcon icon={icon} color={color} size={size || 'lg'} />
       <LabelContainer>
         <IconLabel color={color} size={size || 'lg'}>{label}</IconLabel>
       </LabelContainer>

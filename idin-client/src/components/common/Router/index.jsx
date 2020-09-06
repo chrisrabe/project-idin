@@ -4,13 +4,14 @@ import {
 } from 'react-router-dom';
 import Navigation from '../Navigation/container';
 import {
-  Landing,
-  Inventory,
-  Profile,
-  Requests,
-  Transactions,
-  InventoryDetails,
-  About,
+  Unavailable,
+  // Landing,
+  // Inventory,
+  // Profile,
+  // Requests,
+  // Transactions,
+  // InventoryDetails,
+  // About,
 } from '../../routes';
 import {
   MainContainer,
@@ -23,13 +24,14 @@ const Router = () => {
       <MainContainer isLoggedIn={pathname !== '/'}>
         { pathname !== '/' && <Navigation /> }
         <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/inventory" component={Inventory} />
-          <Route exact path="/inventory/:id" component={InventoryDetails} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/request" component={Requests} />
-          <Route exact path="/transaction" component={Transactions} />
-          <Route exact path="/about" component={About} />
+          <Route exact path="/" component={Unavailable} />
+          {/* <Route exact path="/" component={Landing} /> */}
+          {/* <Route exact path="/inventory" component={Inventory} /> */}
+          {/* <Route exact path="/inventory/:id" component={InventoryDetails} /> */}
+          {/* <Route exact path="/profile" component={Profile} /> */}
+          {/* <Route exact path="/request" component={Requests} /> */}
+          {/* <Route exact path="/transaction" component={Transactions} /> */}
+          {/* <Route exact path="/about" component={About} /> */}
           <Redirect to="/" />
         </Switch>
       </MainContainer>

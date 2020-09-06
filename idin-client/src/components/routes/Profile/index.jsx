@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import {
-  List, ListItem, ListItemText, Paper, Grid
+  List, ListItem, ListItemText, Paper, Grid,
 } from '@material-ui/core';
 
 const MainContainer = styled.div`

@@ -3,7 +3,7 @@ import config from 'config';
 import {
   requestTransactionList,
   setTransactionList,
-  requestUpdateTransaction
+  requestUpdateTransaction,
 } from 'actions/transaction.actions';
 
 const { server } = config;
